@@ -10,10 +10,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 qt_standard_project_setup()
 
 qt_add_executable(untitled.exe
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
+    src/main/main.cpp
+    src/main/mainwindow.cpp
+    src/main/mainwindow.h
+    src/main/mainwindow.ui
 )
 
 target_link_libraries(untitled.exe PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
