@@ -9,9 +9,14 @@ class costEntry {
     string partID;                  //MAX 8 Char
     int supID;
     string partColor = "--";        //Max 2 Char
+    string costUnit = "--";         //Max 2 Char
     Money materialCost;
     Money laborCost;
-    unsigned int amount; 
+    unsigned int minUnits;
+    //additionalCost cost;
+
+    /*|  |*/
+
     public:
 
 };
