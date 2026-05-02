@@ -1,5 +1,6 @@
 #include <string>
 using std::string;
+#include "money.h"
 
 class costEntry {
 
@@ -8,8 +9,9 @@ class costEntry {
     string partID;                  //MAX 8 Char
     int supID;
     string partColor = "--";        //Max 2 Char
-    int materialCost;
-
+    Money materialCost;
+    Money laborCost;
+    unsigned int amount; 
     public:
 
 };
