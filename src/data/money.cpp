@@ -1,29 +1,13 @@
 #include "money.h"
 
+    void Money::addMoney(unsigned long long m) {
+        mills += m;
+    }
 
-//|  Change Value
-void addDollars(unsigned int d) {
+    void Money::subtractMoney(unsigned long long m) {
+        mills -= m;
+    }
 
-}
-void subtractDollars(unsigned int d) {
-
-}
-    
-void addCents(unsigned int d) {
-
-}
-void subtractCents(unsigned int d) {
-
-}
-    
-void addMills(unsigned int d) {
-
-}
-void subtractMills(unsigned int d) {
-
-}
-    
-//|  Operations
-void multiplyAmount(int n) {
-    
-}
+    unsigned long long Money::getAmount() {
+        return mills;
+    }
