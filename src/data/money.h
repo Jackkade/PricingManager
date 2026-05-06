@@ -4,8 +4,6 @@
 class Money {
 
     /*|  Constructors  |*/
-    Money();
-    Money(unsigned long long d);
     
     private:
 
@@ -13,6 +11,8 @@ class Money {
     unsigned long long mills = 0;        //No Upper Limit // In Mills, or hundreths of a cent. 1$ = 10000. This is done for rounding purposes.
     
     public:
+    Money();
+    Money(unsigned long long d);
 
     //|  Change Value
     void addMoney(unsigned long long m);

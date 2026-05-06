@@ -2,7 +2,8 @@
 using std::string;
 #include "money.h"
 
-class costEntry {
+class CostEntry {
+
 
     private:
     
@@ -18,5 +19,9 @@ class costEntry {
     /*|  |*/
 
     public:
+
+    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits);
+
+    string getStandardForm();
 
 };
