@@ -1,5 +1,4 @@
 #pragma once
-
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -18,4 +17,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void on_btnAdd_clicked ();
+    void on_btnRemove_clicked();
+    void on_btnRemoveAll_clicked();
 };
