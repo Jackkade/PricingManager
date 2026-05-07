@@ -26,6 +26,15 @@
       <height>32</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>8</number>
+    </property>
+    <property name="placeholderText">
+     <string extracomment="File Name">File Name</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QPushButton" name="btnAdd">
     <property name="geometry">
