@@ -1,5 +1,6 @@
 #include "costEntry.h"
 #include <string>
+#include "money.cpp"
 
 CostEntry::CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits) {
     if (partID.length() <= 8) {

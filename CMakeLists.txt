@@ -9,6 +9,9 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 qt_standard_project_setup()
 
+include_directories(src/data/)
+
+
 qt_add_executable(untitled.exe
     src/main/main.cpp
     src/main/mainwindow.cpp

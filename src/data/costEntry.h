@@ -1,3 +1,5 @@
+#ifndef COSTENTRY_H
+#define COSTENTRY_H
 #include <string>
 using std::string;
 #include "money.h"
@@ -25,3 +27,5 @@ class CostEntry {
     string getStandardForm();
 
 };
+
+#endif
