@@ -1,5 +1,7 @@
 #ifndef MONEY_H
 #define MONEY_H
+#include <string>
+using std::string;
 
 class Money {
 
@@ -19,6 +21,8 @@ class Money {
     void subtractMoney(unsigned long long m);
     //|  Operations
     unsigned long long getAmount();
+
+    string getAmountStr();
 
 };
 

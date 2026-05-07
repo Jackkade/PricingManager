@@ -1,4 +1,5 @@
 #include "costEntry.h"
+#include <string>
 
 CostEntry::CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits) {
     if (partID.length() <= 8) {
@@ -32,5 +33,11 @@ CostEntry::CostEntry(string partID, int supID, string partColor, string costUnit
 }
 
 string CostEntry::getStandardForm() {
-    return "";
+//  Form:
+//  'C82516  ' 17  '--'  'FT'   2.90   0.00   5.00  '--'  0.00  0.00    0.00   0.00 DS_JAMB.SIZ
+
+    string form;
+    form = "'" + partID + "' " + std::to_string(supID) + " '" + partColor + "' '" + costUnit + "' " + materialCost.getAmountStr() + " " + laborCost.getAmountStr() + " " + std::to_string(minUnits) + ".00 \n";
+
+    return form;
 }
