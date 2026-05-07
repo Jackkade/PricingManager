@@ -3,11 +3,16 @@
 #include "money.cpp"
 
 CostEntry::CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits) {
-    if (partID.length() <= 8) {
+    if (partID.length() > 8) {
+        partID.erase(8);
+        this->partID = partID;
+    }
+    else if (partID.length() < 8) {
+        partID.resize(8, ' ');
         this->partID = partID;
     }
     else {
-        this->partID = "";
+        this->partID = partID;
     }
 
     this->supID = supID;
