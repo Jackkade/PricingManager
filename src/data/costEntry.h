@@ -18,11 +18,13 @@ class CostEntry {
     unsigned int minUnits;
     //additionalCost cost;
 
+    string file;
     /*|  |*/
 
     public:
 
     CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits);
+    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits, string f);
 
     string getStandardForm();
 

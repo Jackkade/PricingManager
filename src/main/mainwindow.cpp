@@ -28,22 +28,22 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    delete ui;
-
-
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "\\pricingfile.txt");
-
+    
+    
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "//pricingfile.txt");
+    
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
     }
-
+    
     QTextStream out(&file);
-
+    
     for (int i = 0; i < ui->listWidget->count(); ++i) {
         out << ui->listWidget->item(i)->text() << '\n';
     }
-
+    
     file.close();
+    delete ui;
 }
 
 
@@ -63,7 +63,8 @@ void MainWindow::on_btnAdd_clicked() {
                 ui->addEntryCostUnit->currentText().toStdString(),
                 Money(100000),
                 Money(0),
-                ui->addEntryMinUnits->value()
+                ui->addEntryMinUnits->value(),
+                ""
             ).getStandardForm()
         ));
         item->setFlags(item->flags() | Qt::ItemIsEditable);
