@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (line.startsWith("'")) {
             QListWidgetItem* item = new QListWidgetItem(line, ui->listWidget);
             ui->listWidget->addItem(item);
-            item->setFlags(item->flags() | Qt::ItemIsEditable);
+            //item->setFlags(item->flags() | Qt::ItemIsEditable);
 
         }
     }
@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-    
     
     QFile file(fileName);
     
@@ -92,4 +91,14 @@ void MainWindow::on_btnRemove_clicked() {
 
 void MainWindow::on_btnRemoveAll_clicked() {
     ui->listWidget->clear();
+}
+
+
+void MainWindow::on_btnEditEntry_clicked() {
+    QListWidgetItem* item = ui->listWidget->item(ui->listWidget->currentRow());
+    if (item) {
+        QStringList strList = item->text().split(' ', Qt::SkipEmptyParts, Qt::CaseSensitive);
+        QString str = strList.at(0);
+        ui->addEntryFileName->setText(str.replace("'", ""));
+    }
 }
