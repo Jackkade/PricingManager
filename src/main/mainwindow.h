@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QString fileName;
 
 private slots:
     void on_btnAdd_clicked ();

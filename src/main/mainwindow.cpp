@@ -5,13 +5,18 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QMessageBox>
+#include <QFileDialog>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
 
     ui->setupUi(this);
 
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "//pricingfile.txt");
+    QFileDialog d;
+    d.setFileMode(QFileDialog::AnyFile);
+    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt)"));
+
+    QFile file(fileName);
 
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
@@ -20,9 +25,13 @@ MainWindow::MainWindow(QWidget *parent)
     QTextStream in(&file);
 
     while (!in.atEnd()) {
-        QListWidgetItem* item = new QListWidgetItem(in.readLine(), ui->listWidget);
-        ui->listWidget->addItem(item);
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
+        QString line = in.readLine();
+        if (line.startsWith("'")) {
+            QListWidgetItem* item = new QListWidgetItem(line, ui->listWidget);
+            ui->listWidget->addItem(item);
+            item->setFlags(item->flags() | Qt::ItemIsEditable);
+
+        }
     }
     file.close();
 }
@@ -30,7 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow() {
     
     
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "//pricingfile.txt");
+    QFile file(fileName);
     
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
