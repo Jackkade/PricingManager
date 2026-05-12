@@ -7,10 +7,10 @@ class CostEntryCategory {
     std::vector<CostEntry> entries;
     
     public:
-    void setName();
+    void setName(std::string name);
     std::string getName();
 
     void addEntry(CostEntry e);
     CostEntry getEntry(unsigned int at);
-    void swapEntries(std::vector<CostEntry> other, unsigned int at_one, unsigned int at_two);
+    void swapEntries(std::vector<CostEntry> &other, unsigned int at_one, unsigned int at_two);
 };
