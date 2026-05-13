@@ -6,7 +6,6 @@ void CostEntryCategory::setName(std::string name) {
 }
 
 std::string CostEntryCategory::getName() {
-
     return categoryName;
 }
 
@@ -15,7 +14,6 @@ void CostEntryCategory::addEntry(CostEntry e) {
 }
 
 CostEntry CostEntryCategory::getEntry(unsigned int at) {
-
     return entries.at(at);
 }
 

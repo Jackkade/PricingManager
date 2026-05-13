@@ -6,6 +6,8 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QVariant>
+#include "listEntry.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
@@ -28,7 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
         QString line = in.readLine();
         if (line.startsWith("'")) {
             QListWidgetItem* item = new QListWidgetItem(line, ui->listWidget);
+
+            ListEntry* widget = new ListEntry(this);
             ui->listWidget->addItem(item);
+            ui->listWidget->setItemWidget(item, widget);
             //item->setFlags(item->flags() | Qt::ItemIsEditable);
 
         }

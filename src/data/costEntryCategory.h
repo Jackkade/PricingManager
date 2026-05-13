@@ -1,3 +1,6 @@
+#ifndef COSTENTRYCATEGORY_H
+#define COSTENTRYCATEGORY_H
+
 #include <vector>
 #include "costEntry.h"
 
@@ -14,3 +17,5 @@ class CostEntryCategory {
     CostEntry getEntry(unsigned int at);
     void swapEntries(std::vector<CostEntry> &other, unsigned int at_one, unsigned int at_two);
 };
+
+#endif

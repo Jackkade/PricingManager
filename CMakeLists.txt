@@ -17,6 +17,10 @@ qt_add_executable(untitled.exe
     src/main/mainwindow.cpp
     src/main/mainwindow.h
     src/main/mainwindow.ui
+    src/main/listEntry.cpp
+    src/main/listEntry.h
+    src/main/listEntry.ui
+    
 )
 
 target_link_libraries(untitled.exe PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
