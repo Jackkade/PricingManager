@@ -38,11 +38,23 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() {
     
+    saveFile();     //TODO: Bring this out to confirmation dialouge
+    
+    delete ui;
+}
+
+bool MainWindow::saveFile() {
+
+    //TODO: Add File Save location dialouge
+
+    bool saved = true;
     QFile file(fileName);
     
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
+        saved = false;
     }
+
     
     QTextStream out(&file);
     
@@ -51,7 +63,8 @@ MainWindow::~MainWindow() {
     }
     
     file.close();
-    delete ui;
+
+    return saved;
 }
 
 
@@ -122,4 +135,15 @@ void MainWindow::on_listWidget_itemSelectionChanged() {
         ui->btnRemove->setDisabled(false);
     
     }
+}
+
+
+void MainWindow::on_btnOpenFile_clicked() {
+
+
+}
+
+void MainWindow::on_btnSave_clicked() {
+
+    saveFile();
 }

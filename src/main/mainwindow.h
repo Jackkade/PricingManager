@@ -19,7 +19,13 @@ private:
     Ui::MainWindow *ui;
     QString fileName;
 
+    bool saveFile();    //Save Current File; Returns true if file saved correctly.
+
 private slots:
+
+    void on_btnOpenFile_clicked();
+    void on_btnSave_clicked();
+
     void on_btnAdd_clicked ();
     void on_btnRemove_clicked();
     void on_btnRemoveAll_clicked();
