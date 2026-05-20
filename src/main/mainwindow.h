@@ -24,4 +24,7 @@ private slots:
     void on_btnRemove_clicked();
     void on_btnRemoveAll_clicked();
     void on_btnEditEntry_clicked();
+
+    void on_addEntryFileName_textChanged(const QString &text);
+    void on_listWidget_itemSelectionChanged();
 };

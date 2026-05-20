@@ -102,3 +102,24 @@ void MainWindow::on_btnEditEntry_clicked() {
         ui->addEntryFileName->setText(str.replace("'", ""));
     }
 }
+
+void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
+    if(text.isEmpty()) {
+        ui->btnAdd->setDisabled(true);
+
+    }   
+    else {
+        ui->btnAdd->setDisabled(false);
+    }
+}
+
+void MainWindow::on_listWidget_itemSelectionChanged() {
+    if(ui->listWidget->selectedItems().isEmpty()) {
+        
+        ui->btnRemove->setDisabled(true);
+    }
+    else {
+        ui->btnRemove->setDisabled(false);
+    
+    }
+}
