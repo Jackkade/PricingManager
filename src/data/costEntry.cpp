@@ -1,6 +1,10 @@
 #include "costEntry.h"
+#include <sstream>
 #include <string>
+#include <vector>
 #include "money.cpp"
+using std::istringstream;
+using std::vector;
 
 CostEntry::CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits) {
     if (partID.length() > 8) {
@@ -90,5 +94,56 @@ string CostEntry::getStandardForm() {
 
 
 CostEntry::CostEntry(string in) {
-    //TODO: Implement This
+
+    string operand = in;
+    std::erase_if(operand, [](unsigned char c) { return (c == '\''); } );
+
+    istringstream stream(operand);
+    string datum;
+    vector<string> data;
+    
+    while (stream >> datum) {
+        data.push_back(datum);
+    }
+
+
+    /*||||||*/
+
+
+    if (data[0].length() > 8) {
+        data[0].erase(8);
+        this->partID = data[0];
+    }
+    else if (data[0].length() < 8) {
+        data[0].resize(8, ' ');
+        this->partID = data[0];
+    }
+    else {
+        this->partID = data[0];
+    }
+
+    this->supID = std::stoi(data[1]);
+
+    if (data[2].length() <= 2) {
+        this->partColor = data[2];
+    }
+    else {
+        this->partColor = "--";
+    }
+
+    if (data[3].length() <= 2) {
+        this->costUnit = data[3];
+    }
+    else {
+        this->costUnit = "--";
+    }
+
+    this->materialCost = std::stof(data[4]);
+
+    this->laborCost = std::stof(data[5]);
+
+    this->minUnits = std::stoi(data[6]);
+
+    this->file = data[7];
+
 }
