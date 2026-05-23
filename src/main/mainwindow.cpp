@@ -29,9 +29,20 @@ MainWindow::MainWindow(QWidget *parent)
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.startsWith("'")) {
+
+            CostEntry* entry = new CostEntry(line.toStdString());
+
             ui->tableWidget->insertRow(i);
             QTableWidgetItem* itemPartName = new QTableWidgetItem("'Skibidi'", 0);
             ui->tableWidget->setItem(i, 0, itemPartName);
+            ui->tableWidget->setItem(i, 1, itemPartName);
+            ui->tableWidget->setItem(i, 2, itemPartName);
+            ui->tableWidget->setItem(i, 3, itemPartName);
+            ui->tableWidget->setItem(i, 4, itemPartName);
+            ui->tableWidget->setItem(i, 5, itemPartName);
+            ui->tableWidget->setItem(i, 6, itemPartName);
+            ui->tableWidget->setItem(i, 7, itemPartName);
+            ui->tableWidget->setItem(i, 8, itemPartName);
 
 
             i++;
