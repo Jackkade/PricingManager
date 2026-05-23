@@ -25,8 +25,9 @@ class CostEntry {
 
     CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits);
     CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits, string f);
-
+    CostEntry(string in);   //From Read String
     string getStandardForm();
+
 
 };
 

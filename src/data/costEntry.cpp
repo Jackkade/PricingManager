@@ -87,3 +87,8 @@ string CostEntry::getStandardForm() {
 
     return form;
 }
+
+
+CostEntry::CostEntry(string in) {
+    //TODO: Implement This
+}

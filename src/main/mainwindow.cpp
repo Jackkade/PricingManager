@@ -6,6 +6,7 @@
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QTableWidget>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
@@ -23,14 +24,17 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     QTextStream in(&file);
-
+    
+    int i = 0;
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.startsWith("'")) {
-            QListWidgetItem* item = new QListWidgetItem(line, ui->listWidget);
-            ui->listWidget->addItem(item);
-            //item->setFlags(item->flags() | Qt::ItemIsEditable);
+            ui->tableWidget->insertRow(i);
+            QTableWidgetItem* itemPartName = new QTableWidgetItem("'Skibidi'", 0);
+            ui->tableWidget->setItem(i, 0, itemPartName);
 
+
+            i++;
         }
     }
     file.close();
@@ -57,10 +61,10 @@ bool MainWindow::saveFile() {
 
     
     QTextStream out(&file);
-    
-    for (int i = 0; i < ui->listWidget->count(); ++i) {
-        out << ui->listWidget->item(i)->text() << '\n';
-    }
+    /*
+    for (int i = 0; i < ui->tableWidget->count(); ++i) {
+        out << ui->tableWidget->item(i)->text() << '\n';
+    }*/
     
     file.close();
 
@@ -68,7 +72,7 @@ bool MainWindow::saveFile() {
 }
 
 
-void MainWindow::on_btnAdd_clicked() {
+void MainWindow::on_btnAdd_clicked() { //TODO
     std::cout << ui->addEntryFileName->text().toStdString() << "\n";
     if (!ui->addEntryFileName->text().isEmpty()) {
         string partColorStr = "--";
@@ -76,7 +80,7 @@ void MainWindow::on_btnAdd_clicked() {
             partColorStr = ui->addEntryColor->text().toStdString();
         }
         //QListWidgetItem* item = new QListWidgetItem(ui->addEntryInput->text());
-        QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(
+        QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(
             CostEntry(
                 ui->addEntryFileName->text().toStdString(),
                 ui->addEntrySupID->value(),
@@ -88,32 +92,39 @@ void MainWindow::on_btnAdd_clicked() {
                 ""
             ).getStandardForm()
         ));
+
+//                    QTableWidgetItem* itemPartName = new QTableWidgetItem(ui->addEntryFileName->text(), 0);
+
         item->setFlags(item->flags() | Qt::ItemIsEditable);
-        ui->listWidget->addItem(item);
+        //ui->listWidget->addItem(item);
         ui->addEntryFileName->clear();
         ui->addEntryFileName->setFocus();
     }
 }
 
-void MainWindow::on_btnRemove_clicked() {
+void MainWindow::on_btnRemove_clicked() { //TODO
+    /*
     QListWidgetItem* item = ui->listWidget->takeItem(ui->listWidget->currentRow());
     if(item) {
         delete item;
     }
+    */
 }
 
 void MainWindow::on_btnRemoveAll_clicked() {
-    ui->listWidget->clear();
+    ui->tableWidget->clearContents();
 }
 
 
-void MainWindow::on_btnEditEntry_clicked() {
+void MainWindow::on_btnEditEntry_clicked() { //TODO
+    /*
     QListWidgetItem* item = ui->listWidget->item(ui->listWidget->currentRow());
     if (item) {
         QStringList strList = item->text().split(' ', Qt::SkipEmptyParts, Qt::CaseSensitive);
         QString str = strList.at(0);
         ui->addEntryFileName->setText(str.replace("'", ""));
     }
+    */
 }
 
 void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
@@ -127,7 +138,7 @@ void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
 }
 
 void MainWindow::on_listWidget_itemSelectionChanged() {
-    if(ui->listWidget->selectedItems().isEmpty()) {
+    if(ui->tableWidget->selectedItems().isEmpty()) {
         
         ui->btnRemove->setDisabled(true);
     }
