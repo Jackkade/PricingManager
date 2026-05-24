@@ -29,6 +29,14 @@ class CostEntry {
     string getStandardForm();
 
 
+    string get_PartID();
+    int get_SupID();
+    string get_PartColor();
+    string get_CostUnit();
+    Money get_MaterialCost();
+    Money get_LaborCost();
+    unsigned int get_MinUnits();
+
 };
 
 #endif

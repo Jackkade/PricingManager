@@ -147,3 +147,12 @@ CostEntry::CostEntry(string in) {
     this->file = data[7];
 
 }
+
+
+string CostEntry::get_PartID() {            return partID;          }
+int CostEntry::get_SupID() {                return supID;           }
+string CostEntry::get_PartColor() {         return partColor;       }
+string CostEntry::get_CostUnit() {          return costUnit;        }
+Money CostEntry::get_MaterialCost() {       return materialCost;    }
+Money CostEntry::get_LaborCost() {          return laborCost;       }
+unsigned int CostEntry::get_MinUnits() {    return minUnits;        }

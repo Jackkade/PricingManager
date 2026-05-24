@@ -33,16 +33,20 @@ MainWindow::MainWindow(QWidget *parent)
             CostEntry* entry = new CostEntry(line.toStdString());
 
             ui->tableWidget->insertRow(i);
-            QTableWidgetItem* itemPartName = new QTableWidgetItem("'Skibidi'", 0);
+            QTableWidgetItem* itemPartName = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
+            QTableWidgetItem* itemSupID     = new QTableWidgetItem( QString::number(entry->get_SupID()) , 0);
+            QTableWidgetItem* itemColor     = new QTableWidgetItem( QString::fromStdString(entry->get_PartColor()) , 0);
+            QTableWidgetItem* itemCostUnit  = new QTableWidgetItem( QString::fromStdString(entry->get_CostUnit()) , 0);
+            QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
+            QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
+            QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
             ui->tableWidget->setItem(i, 0, itemPartName);
-            ui->tableWidget->setItem(i, 1, itemPartName);
-            ui->tableWidget->setItem(i, 2, itemPartName);
-            ui->tableWidget->setItem(i, 3, itemPartName);
-            ui->tableWidget->setItem(i, 4, itemPartName);
-            ui->tableWidget->setItem(i, 5, itemPartName);
-            ui->tableWidget->setItem(i, 6, itemPartName);
-            ui->tableWidget->setItem(i, 7, itemPartName);
-            ui->tableWidget->setItem(i, 8, itemPartName);
+            ui->tableWidget->setItem(i, 1, itemSupID);
+            ui->tableWidget->setItem(i, 2, itemColor);
+            ui->tableWidget->setItem(i, 3, itemCostUnit);
+            ui->tableWidget->setItem(i, 4, itemMatCost);
+            ui->tableWidget->setItem(i, 5, itemLaborCost);
+            ui->tableWidget->setItem(i, 6, itemMinUnits);
 
 
             i++;
