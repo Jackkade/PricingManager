@@ -1,3 +1,6 @@
+#ifndef COSTENTRY_CPP
+#define COSTENTRY_CPP
+
 #include "costEntry.h"
 #include <sstream>
 #include <string>
@@ -156,3 +159,6 @@ string CostEntry::get_CostUnit() {          return costUnit;        }
 Money CostEntry::get_MaterialCost() {       return materialCost;    }
 Money CostEntry::get_LaborCost() {          return laborCost;       }
 unsigned int CostEntry::get_MinUnits() {    return minUnits;        }
+
+
+#endif

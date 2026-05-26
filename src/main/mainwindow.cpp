@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
-#include "costEntry.cpp"
 #include <QFile>
 #include <QStandardPaths>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QTableWidget>
+
+#include <costEntry.cpp>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
@@ -32,27 +33,32 @@ MainWindow::MainWindow(QWidget *parent)
 
             CostEntry* entry = new CostEntry(line.toStdString());
 
-            ui->tableWidget->insertRow(i);
-            QTableWidgetItem* itemPartName = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
-            QTableWidgetItem* itemSupID     = new QTableWidgetItem( QString::number(entry->get_SupID()) , 0);
-            QTableWidgetItem* itemColor     = new QTableWidgetItem( QString::fromStdString(entry->get_PartColor()) , 0);
-            QTableWidgetItem* itemCostUnit  = new QTableWidgetItem( QString::fromStdString(entry->get_CostUnit()) , 0);
-            QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
-            QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
-            QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
-            ui->tableWidget->setItem(i, 0, itemPartName);
-            ui->tableWidget->setItem(i, 1, itemSupID);
-            ui->tableWidget->setItem(i, 2, itemColor);
-            ui->tableWidget->setItem(i, 3, itemCostUnit);
-            ui->tableWidget->setItem(i, 4, itemMatCost);
-            ui->tableWidget->setItem(i, 5, itemLaborCost);
-            ui->tableWidget->setItem(i, 6, itemMinUnits);
+            addTableItemFromCostEntry(entry, i);
 
 
             i++;
         }
     }
     file.close();
+}
+
+void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
+
+    ui->tableWidget->insertRow(row);
+    QTableWidgetItem* itemPartName = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
+    QTableWidgetItem* itemSupID     = new QTableWidgetItem( QString::number(entry->get_SupID()) , 0);
+    QTableWidgetItem* itemColor     = new QTableWidgetItem( QString::fromStdString(entry->get_PartColor()) , 0);
+    QTableWidgetItem* itemCostUnit  = new QTableWidgetItem( QString::fromStdString(entry->get_CostUnit()) , 0);
+    QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
+    QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
+    QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
+    ui->tableWidget->setItem(row, 0, itemPartName);
+    ui->tableWidget->setItem(row, 1, itemSupID);
+    ui->tableWidget->setItem(row, 2, itemColor);
+    ui->tableWidget->setItem(row, 3, itemCostUnit);
+    ui->tableWidget->setItem(row, 4, itemMatCost);
+    ui->tableWidget->setItem(row, 5, itemLaborCost);
+    ui->tableWidget->setItem(row, 6, itemMinUnits);
 }
 
 MainWindow::~MainWindow() {
