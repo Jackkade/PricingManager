@@ -115,9 +115,8 @@ void MainWindow::on_btnAdd_clicked() { //TODO
 
         
 
-        addTableItemFromCostEntry(&entry, ui->tableWidget->currentRow());
+        addTableItemFromCostEntry(&entry, ui->tableWidget->currentRow() + 1);
 
-        //ui->listWidget->addItem(item);
         ui->addEntryFileName->clear();
         ui->addEntryFileName->setFocus();
     }
