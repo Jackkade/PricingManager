@@ -23,6 +23,7 @@ private:
     bool saveFile();    //Save Current File; Returns true if file saved correctly.
     
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
+    
 private slots:
 
     void on_btnOpenFile_clicked();

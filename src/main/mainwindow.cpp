@@ -84,8 +84,9 @@ bool MainWindow::saveFile() {
     QTextStream out(&file);
     /*
     for (int i = 0; i < ui->tableWidget->count(); ++i) {
-        out << ui->tableWidget->item(i)->text() << '\n';
-    }*/
+        out << ui->tableWidget->row(i)->text() << '\n';
+    }
+    */
     
     file.close();
 
@@ -100,23 +101,22 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         if (!ui->addEntryColor->text().isEmpty()) {
             partColorStr = ui->addEntryColor->text().toStdString();
         }
-        //QListWidgetItem* item = new QListWidgetItem(ui->addEntryInput->text());
-        QTableWidgetItem* item = new QTableWidgetItem(QString::fromStdString(
-            CostEntry(
-                ui->addEntryFileName->text().toStdString(),
-                ui->addEntrySupID->value(),
-                partColorStr,
-                ui->addEntryCostUnit->currentText().toStdString(),
-                Money(100000),
-                Money(0),
-                ui->addEntryMinUnits->value(),
-                ""
-            ).getStandardForm()
-        ));
+            
+        CostEntry entry = CostEntry(
+            ui->addEntryFileName->text().toStdString(),
+            ui->addEntrySupID->value(),
+            partColorStr,
+            ui->addEntryCostUnit->currentText().toStdString(),
+            Money(100000),
+            Money(0),
+            ui->addEntryMinUnits->value(),
+            ""
+        );
 
-//                    QTableWidgetItem* itemPartName = new QTableWidgetItem(ui->addEntryFileName->text(), 0);
+        
 
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
+        addTableItemFromCostEntry(&entry, ui->tableWidget->currentRow());
+
         //ui->listWidget->addItem(item);
         ui->addEntryFileName->clear();
         ui->addEntryFileName->setFocus();
