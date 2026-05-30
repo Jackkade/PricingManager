@@ -8,6 +8,8 @@
 #include <QTableWidget>
 
 #include <costEntry.cpp>
+#include <costEntryCategory.cpp>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
@@ -24,27 +26,36 @@ MainWindow::MainWindow(QWidget *parent)
         QMessageBox::information(0, "error", file.errorString());
     }
 
+    // Open File
     QTextStream in(&file);
     
+    allEntries = new CostEntryCategory("All Entries");
+    ui->categoriesListWidget->addItem(QString::fromStdString(allEntries->getName()));
+
     int i = 0;
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.startsWith("'")) {
 
             CostEntry* entry = new CostEntry(line.toStdString());
-
+            allEntries->addEntry(*entry);
             addTableItemFromCostEntry(entry, i);
 
 
             i++;
         }
     }
+    //DEBUG
+    for(int i = 0; i < allEntries->getAmount(); i++) {
+        std::cout << allEntries->getEntry(i).getStandardForm() << '\n';
+    }
+    //
     file.close();
 }
 
 void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
 
-    ui->tableWidget->insertRow(row);
+    ui->itemsTableWidget->insertRow(row);
     QTableWidgetItem* itemPartName = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
     QTableWidgetItem* itemSupID     = new QTableWidgetItem( QString::number(entry->get_SupID()) , 0);
     QTableWidgetItem* itemColor     = new QTableWidgetItem( QString::fromStdString(entry->get_PartColor()) , 0);
@@ -52,13 +63,13 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
     QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
     QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
     QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
-    ui->tableWidget->setItem(row, 0, itemPartName);
-    ui->tableWidget->setItem(row, 1, itemSupID);
-    ui->tableWidget->setItem(row, 2, itemColor);
-    ui->tableWidget->setItem(row, 3, itemCostUnit);
-    ui->tableWidget->setItem(row, 4, itemMatCost);
-    ui->tableWidget->setItem(row, 5, itemLaborCost);
-    ui->tableWidget->setItem(row, 6, itemMinUnits);
+    ui->itemsTableWidget->setItem(row, 0, itemPartName);
+    ui->itemsTableWidget->setItem(row, 1, itemSupID);
+    ui->itemsTableWidget->setItem(row, 2, itemColor);
+    ui->itemsTableWidget->setItem(row, 3, itemCostUnit);
+    ui->itemsTableWidget->setItem(row, 4, itemMatCost);
+    ui->itemsTableWidget->setItem(row, 5, itemLaborCost);
+    ui->itemsTableWidget->setItem(row, 6, itemMinUnits);
 }
 
 MainWindow::~MainWindow() {
@@ -83,8 +94,8 @@ bool MainWindow::saveFile() {
     
     QTextStream out(&file);
     /*
-    for (int i = 0; i < ui->tableWidget->count(); ++i) {
-        out << ui->tableWidget->row(i)->text() << '\n';
+    for (int i = 0; i < ui->itemsTableWidget->count(); ++i) {
+        out << ui->itemsTableWidget->row(i)->text() << '\n';
     }
     */
     
@@ -115,7 +126,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
 
         
 
-        addTableItemFromCostEntry(&entry, ui->tableWidget->currentRow() + 1);
+        addTableItemFromCostEntry(&entry, ui->itemsTableWidget->currentRow() + 1);
 
         ui->addEntryFileName->clear();
         ui->addEntryFileName->setFocus();
@@ -132,7 +143,7 @@ void MainWindow::on_btnRemove_clicked() { //TODO
 }
 
 void MainWindow::on_btnRemoveAll_clicked() {
-    ui->tableWidget->clearContents();
+    ui->itemsTableWidget->clearContents();
 }
 
 
@@ -158,7 +169,7 @@ void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
 }
 
 void MainWindow::on_listWidget_itemSelectionChanged() {
-    if(ui->tableWidget->selectedItems().isEmpty()) {
+    if(ui->itemsTableWidget->selectedItems().isEmpty()) {
         
         ui->btnRemove->setDisabled(true);
     }

@@ -1,6 +1,11 @@
 #include "costEntryCategory.h"
 
 
+CostEntryCategory::CostEntryCategory(string name) {
+    setName(name);
+}
+
+
 void CostEntryCategory::setName(std::string name) {
     categoryName = name;
 }
@@ -18,6 +23,11 @@ CostEntry CostEntryCategory::getEntry(unsigned int at) {
 
     return entries.at(at);
 }
+
+unsigned int CostEntryCategory::getAmount() {
+    return entries.size();
+}
+
 
 void CostEntryCategory::swapEntries(std::vector<CostEntry> &other, unsigned int at_one, unsigned int at_two) {
     CostEntry temp = entries.at(at_one);

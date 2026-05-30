@@ -1,6 +1,9 @@
 #pragma once
 #include <QMainWindow>
 #include <costEntry.h>
+#include <vector>
+#include "costEntryCategory.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -19,6 +22,8 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName;
+    CostEntryCategory *allEntries = nullptr;
+    std::vector<CostEntryCategory*> categories;
 
     bool saveFile();    //Save Current File; Returns true if file saved correctly.
     
