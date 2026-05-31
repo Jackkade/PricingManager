@@ -318,7 +318,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnOpenFile_2">
+   <widget class="QPushButton" name="btnAddCategory">
     <property name="geometry">
      <rect>
       <x>260</x>

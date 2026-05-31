@@ -189,3 +189,10 @@ void MainWindow::on_btnSave_clicked() {
 
     saveFile();
 }
+
+void MainWindow::on_btnAddCategory_clicked() {
+
+    CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
+    ui->categoriesListWidget->addItem(ui->addCategoryName->text());
+    ui->addCategoryName->clear();
+}
