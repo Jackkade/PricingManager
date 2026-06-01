@@ -213,7 +213,7 @@ bool MainWindow::loadCostEntryCategory(int row) {
         ui->itemsTableWidget->clearContents();
         
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
-            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j);
+            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching ooff of category deleting entries
         }
 
         
