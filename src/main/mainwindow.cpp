@@ -32,22 +32,24 @@ MainWindow::MainWindow(QWidget *parent)
     allEntries = new CostEntryCategory("All Entries");
     ui->categoriesListWidget->addItem(QString::fromStdString(allEntries->getName()));
 
+    
     int i = 0;
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.startsWith("'")) {
-
+            
             CostEntry* entry = new CostEntry(line.toStdString());
-            allEntries->addEntry(*entry);
+            allEntries->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
-
-
+            
+            
             i++;
         }
     }
+    categories.push_back(allEntries);
     //DEBUG
     for(int i = 0; i < allEntries->getAmount(); i++) {
-        std::cout << allEntries->getEntry(i).getStandardForm() << '\n';
+        std::cout << allEntries->getEntry(i)->getStandardForm() << '\n';
     }
     //
     file.close();
@@ -106,6 +108,7 @@ bool MainWindow::saveFile() {
 
 
 void MainWindow::on_btnAdd_clicked() { //TODO
+
     std::cout << ui->addEntryFileName->text().toStdString() << "\n";
     if (!ui->addEntryFileName->text().isEmpty()) {
         string partColorStr = "--";
@@ -125,6 +128,8 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         );
 
         
+        //allEntries->addEntry(&entry);
+        //categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(&entry);
 
         addTableItemFromCostEntry(&entry, ui->itemsTableWidget->currentRow() + 1);
 
@@ -193,6 +198,37 @@ void MainWindow::on_btnSave_clicked() {
 void MainWindow::on_btnAddCategory_clicked() {
 
     CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
+    std::cout << ui->addCategoryName->text().toStdString() << '\n';
+    std::cout << temp->getName() << '\n';
+    categories.push_back(temp);
     ui->categoriesListWidget->addItem(ui->addCategoryName->text());
     ui->addCategoryName->clear();
+}
+
+bool MainWindow::loadCostEntryCategory(int row) {
+    bool foundCategory = false;
+    
+    if(row >= 0 && row < ui->categoriesListWidget->count()) {
+        foundCategory = true;
+        ui->itemsTableWidget->clearContents();
+        
+        for (int j = 0; j < categories.at(row)->getAmount(); j++) {
+            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j);
+        }
+
+        
+    }
+    
+    
+
+    return foundCategory;
+}
+
+void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
+    if(currentRow != -1) {
+        
+        if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
+            std::cout << "Category Changed!\n";
+        }
+    }
 }

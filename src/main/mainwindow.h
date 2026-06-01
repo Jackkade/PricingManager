@@ -28,6 +28,8 @@ private:
     bool saveFile();    //Save Current File; Returns true if file saved correctly.
     
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
+
+    bool loadCostEntryCategory(int row);
     
 private slots:
 
@@ -43,6 +45,8 @@ private slots:
     void on_listWidget_itemSelectionChanged();
 
     void on_btnAddCategory_clicked();
-    //TODO: add 'btnAddCategory' functionality
+
+    void on_categoriesListWidget_currentRowChanged(int currentRow);
+    
 
 };
