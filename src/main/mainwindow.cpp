@@ -29,8 +29,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Open File
     QTextStream in(&file);
     
-    allEntries = new CostEntryCategory("All Entries");
-    ui->categoriesListWidget->addItem(QString::fromStdString(allEntries->getName()));
+    categories.push_back( new CostEntryCategory("All Entries"));
+    ui->categoriesListWidget->addItem(QString::fromStdString(categories.at(0)->getName()));
 
     
     int i = 0;
@@ -39,14 +39,13 @@ MainWindow::MainWindow(QWidget *parent)
         if (line.startsWith("'")) {
             
             CostEntry* entry = new CostEntry(line.toStdString());
-            allEntries->addEntry(entry);
+            categories.at(0)->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
             
             
             i++;
         }
     }
-    categories.push_back(allEntries);
     //DEBUG
     /*
     for(int i = 0; i < allEntries->getAmount(); i++) {
@@ -130,7 +129,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         );
 
         
-        allEntries->addEntry(entry);
+        //allEntries->addEntry(entry);
         categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(entry);
 
         addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
@@ -214,11 +213,11 @@ bool MainWindow::loadCostEntryCategory(int row) {
         std::cout << ui->categoriesListWidget->count() << " :count\n";
         foundCategory = true;
         ui->itemsTableWidget->clearContents();
+        ui->itemsTableWidget->setRowCount(0);
         
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
             addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching ooff of category deleting entries
         }
-
         
     }
     
