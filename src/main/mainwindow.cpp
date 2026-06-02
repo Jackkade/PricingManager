@@ -48,9 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
     }
     categories.push_back(allEntries);
     //DEBUG
+    /*
     for(int i = 0; i < allEntries->getAmount(); i++) {
         std::cout << allEntries->getEntry(i)->getStandardForm() << '\n';
     }
+    */
     //
     file.close();
 }
@@ -116,7 +118,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
             partColorStr = ui->addEntryColor->text().toStdString();
         }
             
-        CostEntry entry = CostEntry(
+        CostEntry* entry = new CostEntry(
             ui->addEntryFileName->text().toStdString(),
             ui->addEntrySupID->value(),
             partColorStr,
@@ -128,10 +130,10 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         );
 
         
-        //allEntries->addEntry(&entry);
-        //categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(&entry);
+        allEntries->addEntry(entry);
+        categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(entry);
 
-        addTableItemFromCostEntry(&entry, ui->itemsTableWidget->currentRow() + 1);
+        addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
 
         ui->addEntryFileName->clear();
         ui->addEntryFileName->setFocus();
@@ -208,7 +210,8 @@ void MainWindow::on_btnAddCategory_clicked() {
 bool MainWindow::loadCostEntryCategory(int row) {
     bool foundCategory = false;
     
-    if(row >= 0 && row < ui->categoriesListWidget->count()) {
+    if(row >= 0 && row <= ui->categoriesListWidget->count()) {
+        std::cout << ui->categoriesListWidget->count() << " :count\n";
         foundCategory = true;
         ui->itemsTableWidget->clearContents();
         
