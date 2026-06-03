@@ -108,11 +108,15 @@ bool MainWindow::saveFile() {
 
     
     QTextStream out(&file);
-    /*
-    for (int i = 0; i < ui->itemsTableWidget->count(); ++i) {
-        out << ui->itemsTableWidget->row(i)->text() << '\n';
+    
+    for (int i = 1; i < categories.size(); ++i) {
+        for (int j = 0; j < categories.at(i)->getAmount(); j++) {
+            out << QString::fromStdString(categories.at(i)->getEntry(j)->getStandardForm()) << '\n';
+
+        }
+        out << '\n';
     }
-    */
+    
     
     file.close();
 
@@ -143,7 +147,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         
         //allEntries->addEntry(entry);
         categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(entry);
-        categories.at(0)->addEntry(entry);
+        
         addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
 
         ui->addEntryFileName->clear();
@@ -183,17 +187,6 @@ void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
     }   
     else {
         ui->btnAdd->setDisabled(false);
-    }
-}
-
-void MainWindow::on_listWidget_itemSelectionChanged() {
-    if(ui->itemsTableWidget->selectedItems().isEmpty()) {
-        
-        ui->btnRemove->setDisabled(true);
-    }
-    else {
-        ui->btnRemove->setDisabled(false);
-    
     }
 }
 

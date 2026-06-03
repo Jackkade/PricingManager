@@ -22,7 +22,6 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName;
-    CostEntryCategory *allEntries = nullptr;
     std::vector<CostEntryCategory*> categories;
 
     bool saveFile();    //Save Current File; Returns true if file saved correctly.
@@ -43,7 +42,6 @@ private slots:
     void on_btnEditEntry_clicked();
 
     void on_addEntryFileName_textChanged(const QString &text);
-    void on_listWidget_itemSelectionChanged();
 
     void on_btnAddCategory_clicked();
 
