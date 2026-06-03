@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     
     int i = 0;
-    int categoryIndex = 0;
+    int categoryIndex = 1;
     bool shouldCreateCategoryMutex = true;
     while (!in.atEnd()) {
         QString line = in.readLine();
@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
                 shouldCreateCategoryMutex = false;
             }
             CostEntry* entry = new CostEntry(line.toStdString());
+            categories.at(0)->addEntry(entry);
             categories.at(categoryIndex)->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
             
