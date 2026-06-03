@@ -30,7 +30,8 @@ private:
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
 
     bool loadCostEntryCategory(int row);
-    
+    void addCategory(CostEntryCategory* category);
+
 private slots:
 
     void on_btnOpenFile_clicked();

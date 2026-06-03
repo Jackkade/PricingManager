@@ -9,6 +9,7 @@
 
 #include <costEntry.cpp>
 #include <costEntryCategory.cpp>
+#include <string>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -34,16 +35,26 @@ MainWindow::MainWindow(QWidget *parent)
 
     
     int i = 0;
+    int categoryIndex = 0;
+    bool shouldCreateCategoryMutex = true;
     while (!in.atEnd()) {
         QString line = in.readLine();
         if (line.startsWith("'")) {
-            
+            if (shouldCreateCategoryMutex) {
+                categories.push_back(new CostEntryCategory(std::to_string(categoryIndex)));
+                addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
+                shouldCreateCategoryMutex = false;
+            }
             CostEntry* entry = new CostEntry(line.toStdString());
-            categories.at(0)->addEntry(entry);
+            categories.at(categoryIndex)->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
             
             
             i++;
+        }
+        else if (!line.startsWith('*')) {
+            categoryIndex++;
+            shouldCreateCategoryMutex = true;
         }
     }
     //DEBUG
@@ -198,12 +209,19 @@ void MainWindow::on_btnSave_clicked() {
 
 void MainWindow::on_btnAddCategory_clicked() {
 
+    //    std::cout << ui->addCategoryName->text().toStdString() << '\n';
+    //    std::cout << temp->getName() << '\n';
+    
     CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
-    std::cout << ui->addCategoryName->text().toStdString() << '\n';
-    std::cout << temp->getName() << '\n';
-    categories.push_back(temp);
-    ui->categoriesListWidget->addItem(ui->addCategoryName->text());
     ui->addCategoryName->clear();
+    addCategory(temp);
+}
+
+void MainWindow::addCategory(CostEntryCategory* category) {
+    
+    ui->categoriesListWidget->addItem(QString::fromStdString(category->getName()));
+
+    categories.push_back(category);
 }
 
 bool MainWindow::loadCostEntryCategory(int row) {
