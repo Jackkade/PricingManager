@@ -143,7 +143,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         
         //allEntries->addEntry(entry);
         categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(entry);
-
+        categories.at(0)->addEntry(entry);
         addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
 
         ui->addEntryFileName->clear();
