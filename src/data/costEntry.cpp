@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <iostream>
 #include "money.cpp"
 using std::istringstream;
 using std::vector;
@@ -101,6 +102,7 @@ CostEntry::CostEntry(string in) {
     string operand = in;
     std::erase_if(operand, [](unsigned char c) { return (c == '\''); } );
 
+    std::cout << operand << '\n';
     istringstream stream(operand);
     string datum;
     vector<string> data;
@@ -147,7 +149,13 @@ CostEntry::CostEntry(string in) {
 
     this->minUnits = std::stoi(data[6]);
 
-    this->file = data[7];
+    if(data.size() == 12 ) {
+        this->file = data[11];
+
+    }
+    else { 
+        this->file = ""; 
+    }
 
 }
 
@@ -159,6 +167,7 @@ string CostEntry::get_CostUnit() {          return costUnit;        }
 Money CostEntry::get_MaterialCost() {       return materialCost;    }
 Money CostEntry::get_LaborCost() {          return laborCost;       }
 unsigned int CostEntry::get_MinUnits() {    return minUnits;        }
+string CostEntry::get_file() {              return file;            }
 
 
 #endif

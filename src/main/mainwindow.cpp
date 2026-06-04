@@ -78,6 +78,7 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
     QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
     QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
     QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
+    QTableWidgetItem* itemFile      = new QTableWidgetItem(QString::fromStdString(entry->get_file()));
     ui->itemsTableWidget->setItem(row, 0, itemPartName);
     ui->itemsTableWidget->setItem(row, 1, itemSupID);
     ui->itemsTableWidget->setItem(row, 2, itemColor);
@@ -85,6 +86,7 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
     ui->itemsTableWidget->setItem(row, 4, itemMatCost);
     ui->itemsTableWidget->setItem(row, 5, itemLaborCost);
     ui->itemsTableWidget->setItem(row, 6, itemMinUnits);
+    ui->itemsTableWidget->setItem(row, 7, itemFile);
 }
 
 MainWindow::~MainWindow() {

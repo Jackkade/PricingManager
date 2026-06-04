@@ -36,6 +36,7 @@ class CostEntry {
     Money get_MaterialCost();
     Money get_LaborCost();
     unsigned int get_MinUnits();
+    string get_file();
 
 };
 
