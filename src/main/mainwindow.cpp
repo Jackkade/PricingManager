@@ -128,24 +128,24 @@ bool MainWindow::saveFile() {
 }
 
 
-void MainWindow::on_btnAdd_clicked() { //TODO
+void MainWindow::on_btnAdd_clicked() {
 
-    std::cout << ui->addEntryFileName->text().toStdString() << "\n";
-    if (!ui->addEntryFileName->text().isEmpty()) {
+    std::cout << ui->addEntryPartName->text().toStdString() << "\n";
+    if (!ui->addEntryPartName->text().isEmpty()) {
         string partColorStr = "--";
         if (!ui->addEntryColor->text().isEmpty()) {
             partColorStr = ui->addEntryColor->text().toStdString();
         }
             
         CostEntry* entry = new CostEntry(
-            ui->addEntryFileName->text().toStdString(),
+            ui->addEntryPartName->text().toStdString(),
             ui->addEntrySupID->value(),
             partColorStr,
             ui->addEntryCostUnit->currentText().toStdString(),
-            Money(100000), // TODO
-            Money(0),
+            Money(ui->addEntryMaterialCost->cleanText().toFloat() * 10000),
+            Money(ui->addEntryLaborCost->cleanText().toFloat() * 10000),
             ui->addEntryMinUnits->value(),
-            ""
+            ui->addEntryFileName->text().toStdString()
         );
 
         
@@ -154,8 +154,8 @@ void MainWindow::on_btnAdd_clicked() { //TODO
         
         addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
 
-        ui->addEntryFileName->clear();
-        ui->addEntryFileName->setFocus();
+        ui->addEntryPartName->clear();
+        ui->addEntryPartName->setFocus();
     }
 }
 

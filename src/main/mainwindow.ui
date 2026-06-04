@@ -17,7 +17,7 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
-   <widget class="QLineEdit" name="addEntryFileName">
+   <widget class="QLineEdit" name="addEntryPartName">
     <property name="geometry">
      <rect>
       <x>960</x>
@@ -350,6 +350,25 @@
     </property>
     <property name="placeholderText">
      <string extracomment="Category Name">Category Name</string>
+    </property>
+    <property name="clearButtonEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="addEntryFileName">
+    <property name="geometry">
+     <rect>
+      <x>1540</x>
+      <y>80</y>
+      <width>100</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="maxLength">
+     <number>64</number>
+    </property>
+    <property name="placeholderText">
+     <string extracomment="File Name">File Name</string>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
