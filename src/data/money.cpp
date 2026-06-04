@@ -1,4 +1,5 @@
 #include "money.h"
+#include <cmath>
 #include <string>
 
 void Money::addMoney(unsigned long long m) {
@@ -14,7 +15,7 @@ unsigned long long Money::getAmount() {
     return mills;
 }
 
-string Money::getAmountStr() {
+string Money::getAmountStr() {// 50.0000
     string s = std::to_string(mills / 10000) + "." + std::to_string(mills % 10000);
     return s;
 } 

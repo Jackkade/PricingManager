@@ -16,7 +16,6 @@ class Money {
     Money();
     Money(unsigned long long d);
     //Money(string str);        //TODO
-
     //|  Change Value
     void addMoney(unsigned long long m);
     void subtractMoney(unsigned long long m);

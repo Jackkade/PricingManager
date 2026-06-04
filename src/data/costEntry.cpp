@@ -143,9 +143,9 @@ CostEntry::CostEntry(string in) {
         this->costUnit = "--";
     }
 
-    this->materialCost = std::stof(data[4]);
+    this->materialCost = std::stof(data[4]) * 10000;
 
-    this->laborCost = std::stof(data[5]);
+    this->laborCost = std::stof(data[5]) * 10000;
 
     this->minUnits = std::stoi(data[6]);
 

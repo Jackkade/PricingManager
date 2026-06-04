@@ -255,6 +255,10 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
         CostEntry *operand = categories.at(selectedCategory)->getEntry(row)/*TODO*/;
         if(column == 0) {
             operand->set_PartID(ui->itemsTableWidget->item(row, column)->text().toStdString());
+            string str = ui->itemsTableWidget->item(row, column)->text().toStdString();
+            str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
+
+
         }
         else if(column == 1) {
             operand->set_SupID(ui->itemsTableWidget->item(row, column)->text().toInt());
