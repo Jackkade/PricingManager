@@ -21,6 +21,13 @@ class CostEntry {
     string file;
     /*|  |*/
 
+    //Information
+    string partName = "";
+    string colorDesc = "";
+    string description = "";
+
+    /*\|||/*/
+
     public:
 
     CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits);
@@ -47,6 +54,13 @@ class CostEntry {
     bool set_MinUnits(unsigned int);
     bool set_file(string);
 
+    string get_PartName();
+    string get_ColorDesc();
+    string get_Description();
+    
+    bool set_PartName(string input);
+    bool set_ColorDesc(string input);
+    bool set_Description(string input);
 };
 
 #endif

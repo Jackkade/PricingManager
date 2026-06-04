@@ -251,4 +251,30 @@ bool CostEntry::set_file(string file) {
 }
 
 
+
+string CostEntry::get_PartName() {
+    return partName;
+}
+string CostEntry::get_ColorDesc() {
+    return colorDesc;
+}
+string CostEntry::get_Description() {
+    return description;
+}
+    
+bool CostEntry::set_PartName(string input) {
+    partName = input;
+    return true;
+}
+bool CostEntry::set_ColorDesc(string input) {
+    colorDesc = input;
+    return true;
+
+}
+bool CostEntry::set_Description(string input) {
+    description = input;
+    return true;
+
+}
+
 #endif

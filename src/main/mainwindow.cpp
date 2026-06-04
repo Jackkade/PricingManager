@@ -291,5 +291,10 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 
         }
 
+        /*||||*/
+
+        ui->labelEntryColorOut->setText(QString::fromStdString(operand->get_ColorDesc()));
+        ui->labelEntryNameOut->setText(QString::fromStdString(operand->get_PartName()));
+        ui->entryPartDescription->setText(QString::fromStdString(operand->get_Description()));
     }
 }
