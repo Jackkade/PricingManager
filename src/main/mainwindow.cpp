@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget *parent)
     */
     //
     file.close();
+
+    ui->categoriesListWidget->setCurrentItem(ui->categoriesListWidget->item(0));
 }
 
 void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
