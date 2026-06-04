@@ -38,6 +38,15 @@ class CostEntry {
     unsigned int get_MinUnits();
     string get_file();
 
+    bool set_PartID(string);
+    bool set_SupID(int);
+    bool set_PartColor(string);
+    bool set_CostUnit(string);
+    bool set_MaterialCost(Money);
+    bool set_LaborCost(Money);
+    bool set_MinUnits(unsigned int);
+    bool set_file(string);
+
 };
 
 #endif

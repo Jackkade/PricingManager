@@ -242,9 +242,48 @@ bool MainWindow::loadCostEntryCategory(int row) {
 
 void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     if(currentRow != -1) {
-        
+        selectedCategory = currentRow;
         if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
             std::cout << "Category Changed!\n";
         }
+    }
+}
+
+void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
+    std::cout << row << " " << column << '\n';
+    if(selectedCategory >= 0 && selectedCategory < categories.size()) {
+        CostEntry *operand = categories.at(selectedCategory)->getEntry(row)/*TODO*/;
+        if(column == 0) {
+            operand->set_PartID(ui->itemsTableWidget->item(row, column)->text().toStdString());
+        }
+        else if(column == 1) {
+            operand->set_SupID(ui->itemsTableWidget->item(row, column)->text().toInt());
+
+        }
+        else if(column == 2) {
+            operand->set_PartColor(ui->itemsTableWidget->item(row, column)->text().toStdString());
+
+        }
+        else if(column == 3) {
+            operand->set_CostUnit(ui->itemsTableWidget->item(row, column)->text().toStdString());
+
+        }
+        else if(column == 4) {
+            operand->set_MaterialCost(static_cast<unsigned long long>(ui->itemsTableWidget->item(row, column)->text().toFloat() * 10000));
+
+        }
+        else if(column == 5) {
+            operand->set_LaborCost(static_cast<unsigned long long>(ui->itemsTableWidget->item(row, column)->text().toFloat() * 10000));
+
+        }
+        else if(column == 6) {
+            operand->set_MinUnits(ui->itemsTableWidget->item(row, column)->text().toUInt());
+
+        }
+        else if(column == 7) {
+            operand->set_file(ui->itemsTableWidget->item(row, column)->text().toStdString());
+
+        }
+
     }
 }

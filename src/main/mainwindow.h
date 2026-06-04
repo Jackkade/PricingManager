@@ -22,6 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     QString fileName;
+    unsigned int selectedCategory = -1;
     std::vector<CostEntryCategory*> categories;
 
     bool saveFile();    //Save Current File; Returns true if file saved correctly.
@@ -47,5 +48,6 @@ private slots:
 
     void on_categoriesListWidget_currentRowChanged(int currentRow);
     
+    void on_itemsTableWidget_cellChanged(int row, int column);
 
 };

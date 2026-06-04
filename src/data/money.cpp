@@ -9,6 +9,7 @@ void Money::subtractMoney(unsigned long long m) {
     mills -= m;
 }
 
+
 unsigned long long Money::getAmount() {
     return mills;
 }

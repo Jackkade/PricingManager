@@ -170,4 +170,83 @@ unsigned int CostEntry::get_MinUnits() {    return minUnits;        }
 string CostEntry::get_file() {              return file;            }
 
 
+bool CostEntry::set_PartID(string partID) {
+    bool successful = true;
+    if (partID.length() > 8) {
+        partID.erase(8);
+        this->partID = partID;
+    }
+    else if (partID.length() < 8) {
+        partID.resize(8, ' ');
+        this->partID = partID;
+    }
+    else {
+        this->partID = partID;
+    }
+
+    return successful;
+}
+bool CostEntry::set_SupID(int supID) {
+    bool successful = true;
+
+    this->supID = supID;
+
+    return successful;
+}
+bool CostEntry::set_PartColor(string partColor) {
+    bool successful = true;
+
+    if (partColor.length() <= 2) {
+        this->partColor = partColor;
+    }
+    else {
+        this->partColor = "--";
+        successful = false;
+    }
+
+    return successful;
+}
+bool CostEntry::set_CostUnit(string costUnit) {
+    bool successful = true;
+
+    if (costUnit.length() <= 2) {
+        this->costUnit = costUnit;
+    }
+    else {
+        this->costUnit = "--";
+        successful = false;
+    }
+
+    return successful;
+}
+bool CostEntry::set_MaterialCost(Money materialCost) {
+    bool successful = true;
+
+    this->materialCost = materialCost;
+
+    return successful;
+}
+bool CostEntry::set_LaborCost(Money laborCost) {
+    bool successful = true;
+
+    this->laborCost = laborCost;
+
+    return successful;
+}
+bool CostEntry::set_MinUnits(unsigned int minUnits) {
+    bool successful = true;
+
+    this->minUnits = minUnits;
+
+    return successful;
+}
+bool CostEntry::set_file(string file) {
+    bool successful = true;
+
+    this->file = file;
+
+    return successful;
+}
+
+
 #endif
