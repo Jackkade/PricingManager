@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm> 
 #include "money.cpp"
 using std::istringstream;
 using std::vector;
@@ -100,7 +101,8 @@ string CostEntry::getStandardForm() {
 CostEntry::CostEntry(string in) {
 
     string operand = in;
-    std::erase_if(operand, [](unsigned char c) { return (c == '\''); } );
+    std::replace(operand.begin(), operand.end(), '\'', ' ');
+
 
     std::cout << operand << '\n';
     istringstream stream(operand);
