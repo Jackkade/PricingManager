@@ -140,7 +140,7 @@ void MainWindow::on_btnAdd_clicked() { //TODO
             ui->addEntrySupID->value(),
             partColorStr,
             ui->addEntryCostUnit->currentText().toStdString(),
-            Money(100000),
+            Money(100000), // TODO
             Money(0),
             ui->addEntryMinUnits->value(),
             ""

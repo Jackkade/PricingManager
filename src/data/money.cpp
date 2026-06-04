@@ -1,5 +1,4 @@
 #include "money.h"
-#include <cmath>
 #include <string>
 
 void Money::addMoney(unsigned long long m) {
