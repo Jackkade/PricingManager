@@ -110,7 +110,7 @@ CostEntry::CostEntry(string in) {
     while (stream >> datum) {
         data.push_back(datum);
     }
-
+    std::cout << std::endl;
 
     /*||||||*/
 
@@ -149,8 +149,8 @@ CostEntry::CostEntry(string in) {
 
     this->minUnits = std::stoi(data[6]);
 
-    if(data.size() == 12 ) {
-        this->file = data[11];
+    if(data.size() == 13 ) {
+        this->file = data[12];
 
     }
     else { 
