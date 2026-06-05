@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QFileDialog d;
     d.setFileMode(QFileDialog::AnyFile);
-    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt)"));
+    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.siz)"));
 
     QFile file(fileName);
 
@@ -103,8 +103,13 @@ bool MainWindow::saveFile() {
     //TODO: Add File Save location dialouge
 
     bool saved = true;
+
+
+
     QFile file(fileName);
-    
+
+    file.copy(fileName + ".backup");
+
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
         saved = false;
