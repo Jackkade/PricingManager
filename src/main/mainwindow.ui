@@ -479,6 +479,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnSaveAs">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>0</y>
+      <width>70</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Save As</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

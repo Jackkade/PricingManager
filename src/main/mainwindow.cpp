@@ -15,12 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
 
+
     ui->setupUi(this);
 
     QFileDialog d;
     d.setFileMode(QFileDialog::AnyFile);
-    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.siz)"));
+    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
 
+
+    //TODO: read data from : AppDataLocation
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadWrite)) {
@@ -93,12 +96,12 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
 
 MainWindow::~MainWindow() {
     
-    saveFile();     //TODO: Bring this out to confirmation dialouge
+    saveFile(fileName);     //TODO: Bring this out to confirmation dialouge
     
     delete ui;
 }
 
-bool MainWindow::saveFile() {
+bool MainWindow::saveFile(QString saveLocation) {
 
     //TODO: Add File Save location dialouge
 
@@ -106,7 +109,7 @@ bool MainWindow::saveFile() {
 
 
 
-    QFile file(fileName);
+    QFile file(saveLocation);
 
     file.copy(fileName + ".backup");
 
@@ -207,7 +210,15 @@ void MainWindow::on_btnOpenFile_clicked() {
 
 void MainWindow::on_btnSave_clicked() {
 
-    saveFile();
+    saveFile(fileName);
+}
+
+void MainWindow::on_btnSaveAs_clicked() {
+
+    saveFile(QFileDialog::getSaveFileName(this, 
+        tr("Save File As"), 
+        "", 
+        tr("Text Files (*.txt *.SIZ);;All Files (*)")));
 }
 
 void MainWindow::on_btnAddCategory_clicked() {

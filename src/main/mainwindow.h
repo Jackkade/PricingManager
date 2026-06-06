@@ -25,7 +25,7 @@ private:
     unsigned int selectedCategory = -1;
     std::vector<CostEntryCategory*> categories;
 
-    bool saveFile();    //Save Current File; Returns true if file saved correctly.
+    bool saveFile(QString saveLocation);    //Save Current File; Returns true if file saved correctly.
     
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
 
@@ -36,6 +36,7 @@ private slots:
 
     void on_btnOpenFile_clicked();
     void on_btnSave_clicked();
+    void on_btnSaveAs_clicked();
 
     void on_btnAdd_clicked ();
     void on_btnRemove_clicked();
