@@ -15,62 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
 
-
     ui->setupUi(this);
 
-    QFileDialog d;
-    d.setFileMode(QFileDialog::AnyFile);
-    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
+    //openFile(fileName);
 
-
-    //TODO: read data from : AppDataLocation
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::ReadWrite)) {
-        QMessageBox::information(0, "error", file.errorString());
-    }
-
-    // Open File
-    QTextStream in(&file);
-    
-    categories.push_back( new CostEntryCategory("All Entries"));
-    ui->categoriesListWidget->addItem(QString::fromStdString(categories.at(0)->getName()));
-
-    
-    int i = 0;
-    int categoryIndex = 1;
-    bool shouldCreateCategoryMutex = true;
-    while (!in.atEnd()) {
-        QString line = in.readLine();
-        if (line.startsWith("'")) {
-            if (shouldCreateCategoryMutex) {
-                categories.push_back(new CostEntryCategory(std::to_string(categoryIndex)));
-                addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
-                shouldCreateCategoryMutex = false;
-            }
-            CostEntry* entry = new CostEntry(line.toStdString());
-            categories.at(0)->addEntry(entry);
-            categories.at(categoryIndex)->addEntry(entry);
-            addTableItemFromCostEntry(entry, i);
-            
-            
-            i++;
-        }
-        else if (!line.startsWith('*')) {
-            categoryIndex++;
-            shouldCreateCategoryMutex = true;
-        }
-    }
-    //DEBUG
-    /*
-    for(int i = 0; i < allEntries->getAmount(); i++) {
-        std::cout << allEntries->getEntry(i)->getStandardForm() << '\n';
-    }
-    */
-    //
-    file.close();
-
-    ui->categoriesListWidget->setCurrentItem(ui->categoriesListWidget->item(0));
 }
 
 void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
@@ -135,6 +83,60 @@ bool MainWindow::saveFile(QString saveLocation) {
     return saved;
 }
 
+bool MainWindow::openFile(QString f_name) {
+
+
+    //TODO: read data from : AppDataLocation
+    QFile file(f_name);
+
+    if (!file.open(QIODevice::ReadWrite)) {
+        QMessageBox::information(0, "error", file.errorString());
+    }
+
+    // Open File
+    QTextStream in(&file);
+    
+    categories.push_back( new CostEntryCategory("All Entries"));
+    ui->categoriesListWidget->addItem(QString::fromStdString(categories.at(0)->getName()));
+
+    
+    int i = 0;
+    int categoryIndex = 1;
+    bool shouldCreateCategoryMutex = true;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        if (line.startsWith("'")) {
+            if (shouldCreateCategoryMutex) {
+                categories.push_back(new CostEntryCategory(std::to_string(categoryIndex)));
+                addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
+                shouldCreateCategoryMutex = false;
+            }
+            CostEntry* entry = new CostEntry(line.toStdString());
+            categories.at(0)->addEntry(entry);
+            categories.at(categoryIndex)->addEntry(entry);
+            addTableItemFromCostEntry(entry, i);
+            
+            
+            i++;
+        }
+        else if (!line.startsWith('*')) {
+            categoryIndex++;
+            shouldCreateCategoryMutex = true;
+        }
+    }
+    //DEBUG
+    /*
+    for(int i = 0; i < allEntries->getAmount(); i++) {
+        std::cout << allEntries->getEntry(i)->getStandardForm() << '\n';
+    }
+    */
+    //
+    file.close();
+
+    ui->categoriesListWidget->setCurrentItem(ui->categoriesListWidget->item(0));
+
+    return i > 0;
+}
 
 void MainWindow::on_btnAdd_clicked() {
 
@@ -196,7 +198,7 @@ void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
     if(text.isEmpty()) {
         ui->btnAdd->setDisabled(true);
 
-    }   
+    }
     else {
         ui->btnAdd->setDisabled(false);
     }
@@ -206,6 +208,12 @@ void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
 void MainWindow::on_btnOpenFile_clicked() {
 
 
+    QFileDialog d;
+    d.setFileMode(QFileDialog::AnyFile);
+    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
+
+
+    openFile(fileName);
 }
 
 void MainWindow::on_btnSave_clicked() {
@@ -225,14 +233,14 @@ void MainWindow::on_btnAddCategory_clicked() {
 
     //    std::cout << ui->addCategoryName->text().toStdString() << '\n';
     //    std::cout << temp->getName() << '\n';
-    
+
     CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
     ui->addCategoryName->clear();
     addCategory(temp);
 }
 
 void MainWindow::addCategory(CostEntryCategory* category) {
-    
+
     ui->categoriesListWidget->addItem(QString::fromStdString(category->getName()));
 
     categories.push_back(category);
@@ -240,7 +248,7 @@ void MainWindow::addCategory(CostEntryCategory* category) {
 
 bool MainWindow::loadCostEntryCategory(int row) {
     bool foundCategory = false;
-    
+
     if(row >= 0 && row <= ui->categoriesListWidget->count()) {
         std::cout << ui->categoriesListWidget->count() << " :count\n";
         foundCategory = true;
@@ -250,10 +258,10 @@ bool MainWindow::loadCostEntryCategory(int row) {
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
             addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching ooff of category deleting entries
         }
-        
+
     }
-    
-    
+
+
 
     return foundCategory;
 }

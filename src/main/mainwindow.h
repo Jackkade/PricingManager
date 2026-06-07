@@ -26,7 +26,8 @@ private:
     std::vector<CostEntryCategory*> categories;
 
     bool saveFile(QString saveLocation);    //Save Current File; Returns true if file saved correctly.
-    
+    bool openFile(QString f_name);
+
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
 
     bool loadCostEntryCategory(int row);
