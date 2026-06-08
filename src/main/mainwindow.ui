@@ -53,6 +53,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnRemoveAll">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>1653</x>
@@ -66,6 +69,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnRemove">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>1563</x>
@@ -192,6 +198,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnEditEntry">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>950</x>
@@ -218,6 +227,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnSave">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -252,7 +264,7 @@
      </size>
     </property>
     <property name="sortingEnabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <attribute name="horizontalHeaderVisible">
      <bool>true</bool>
@@ -324,6 +336,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="btnAddCategory">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -480,6 +495,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </property>
    </widget>
    <widget class="QPushButton" name="btnSaveAs">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>140</x>

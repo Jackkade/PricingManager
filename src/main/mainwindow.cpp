@@ -135,6 +135,13 @@ bool MainWindow::openFile(QString f_name) {
 
     ui->categoriesListWidget->setCurrentItem(ui->categoriesListWidget->item(0));
 
+    hasOpenFile = true;
+    ui->btnSave->setEnabled(true);
+    ui->btnAddCategory->setEnabled(true);
+    ui->btnSaveAs->setEnabled(true);
+    ui->btnEditEntry->setEnabled(true);
+    ui->btnRemove->setEnabled(true);
+    ui->btnRemoveAll->setEnabled(true);
     return i > 0;
 }
 

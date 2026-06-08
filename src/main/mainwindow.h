@@ -19,6 +19,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    bool hasOpenFile = false;
+
 private:
     Ui::MainWindow *ui;
     QString fileName;
