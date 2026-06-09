@@ -149,7 +149,15 @@ bool MainWindow::execSelectionChangeConfirmationDialog() {
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.setText("Please Review the changes and ensure they are correct:\n");
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    msgBox.setInformativeText("const QString &text");//TODO
+    
+    QString infoText = "";
+    
+    QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
+    for (int i = 0; i < items.size(); i++ ){
+        infoText += items.at(i)->text() + " ---> " + ui->changeEntryDataText->text() + "\n";
+    }
+    
+    msgBox.setInformativeText(infoText);
 
     int ret = msgBox.exec();
 
@@ -284,7 +292,12 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
 
 void MainWindow::on_btnEditSelection_clicked() { //TODO
     
-    execSelectionChangeConfirmationDialog();
+    if (execSelectionChangeConfirmationDialog()) {
+        QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
+        for (int i = 0; i < items.size(); i++ ){
+            items.at(i)->setText(ui->changeEntryDataText->text());
+        }
+    }
 
 }
 

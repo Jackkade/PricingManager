@@ -512,7 +512,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>Modify Selection</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="addCategoryName_2">
+   <widget class="QLineEdit" name="changeEntryDataText">
     <property name="geometry">
      <rect>
       <x>350</x>
