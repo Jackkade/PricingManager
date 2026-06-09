@@ -54,5 +54,6 @@ private slots:
     void on_categoriesListWidget_currentRowChanged(int currentRow);
     
     void on_itemsTableWidget_cellChanged(int row, int column);
+    void on_itemsTableWidget_itemSelectionChanged();
 
 };

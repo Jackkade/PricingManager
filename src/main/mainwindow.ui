@@ -247,6 +247,9 @@
       <height>500</height>
      </size>
     </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectionBehavior::SelectItems</enum>
+    </property>
     <property name="sortingEnabled">
      <bool>true</bool>
     </property>

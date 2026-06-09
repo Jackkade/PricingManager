@@ -17,6 +17,7 @@ class CostEntryCategory {
     std::string getName();
 
     void addEntry(CostEntry* e);
+    void removeEntry(CostEntry* e);
     CostEntry* getEntry(unsigned int at);
     unsigned int getAmount();
     void swapEntries(CostEntryCategory &other, unsigned int at_one, unsigned int at_two);

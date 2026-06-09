@@ -38,3 +38,11 @@ void CostEntryCategory::swapEntries(CostEntryCategory &other, unsigned int at_on
     entries.at(at_one) = other.getEntry(at_two);
     other.setEntry(at_two, temp);
 }
+
+void CostEntryCategory::removeEntry(CostEntry* e) {
+    for (int i = 0; i < entries.size(); i++) {
+        if (entries.at(i) == e) {
+            entries.erase(entries.begin() + i);
+        }
+    }
+}

@@ -188,12 +188,14 @@ void MainWindow::on_btnAdd_clicked() {
 }
 
 void MainWindow::on_btnRemove_clicked() { //TODO
-    /*
-    QListWidgetItem* item = ui->listWidget->takeItem(ui->listWidget->currentRow());
-    if(item) {
-        delete item;
-    }
-    */
+
+    int row = ui->itemsTableWidget->selectedItems().first()->row();
+
+    ui->itemsTableWidget->removeRow(row);
+
+    CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
+    categories.at(0)->removeEntry(operand);
+    categories.at(selectedCategory)->removeEntry(operand);
 }
 
 void MainWindow::on_btnRemoveAll_clicked() {
@@ -280,7 +282,7 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     }
 }
 
-void MainWindow::on_btnEditSelection_clicked() {
+void MainWindow::on_btnEditSelection_clicked() { //TODO
     
     execSelectionChangeConfirmationDialog();
 
@@ -289,7 +291,7 @@ void MainWindow::on_btnEditSelection_clicked() {
 void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
     std::cout << row << " " << column << '\n';
     if(selectedCategory >= 0 && selectedCategory < categories.size()) {
-        CostEntry *operand = categories.at(selectedCategory)->getEntry(row)/*TODO*/;
+        CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
         if(column == 0) {
 
             if (ui->itemsTableWidget->item(row, column)->text().length() > 8) {
@@ -346,5 +348,14 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
         ui->labelEntryColorOut->setText(QString::fromStdString(operand->get_ColorDesc()));
         ui->labelEntryNameOut->setText(QString::fromStdString(operand->get_PartName()));
         ui->entryPartDescription->setText(QString::fromStdString(operand->get_Description()));
+    }
+}
+
+void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
+    if (ui->itemsTableWidget->selectedItems().size() == 1) {
+        ui->btnRemove->setEnabled(true);
+    }
+    else {
+        ui->btnRemove->setEnabled(false);
     }
 }
