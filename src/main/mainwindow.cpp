@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    //openFile(fileName);
 
 }
 
@@ -139,10 +138,22 @@ bool MainWindow::openFile(QString f_name) {
     ui->btnSave->setEnabled(true);
     ui->btnAddCategory->setEnabled(true);
     ui->btnSaveAs->setEnabled(true);
-    ui->btnEditEntry->setEnabled(true);
     ui->btnRemove->setEnabled(true);
     ui->btnRemoveAll->setEnabled(true);
+    ui->btnEditSelection->setEnabled(true);
     return i > 0;
+}
+
+bool MainWindow::execSelectionChangeConfirmationDialog() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("Please Review the changes and ensure they are correct:\n");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    msgBox.setInformativeText("const QString &text");//TODO
+
+    int ret = msgBox.exec();
+
+    return ret == QMessageBox::Ok;
 }
 
 void MainWindow::on_btnAdd_clicked() {
@@ -190,17 +201,6 @@ void MainWindow::on_btnRemoveAll_clicked() {
 }
 
 
-void MainWindow::on_btnEditEntry_clicked() { //TODO
-    /*
-    QListWidgetItem* item = ui->listWidget->item(ui->listWidget->currentRow());
-    if (item) {
-        QStringList strList = item->text().split(' ', Qt::SkipEmptyParts, Qt::CaseSensitive);
-        QString str = strList.at(0);
-        ui->addEntryFileName->setText(str.replace("'", ""));
-    }
-    */
-}
-
 void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
     if(text.isEmpty()) {
         ui->btnAdd->setDisabled(true);
@@ -238,8 +238,6 @@ void MainWindow::on_btnSaveAs_clicked() {
 
 void MainWindow::on_btnAddCategory_clicked() {
 
-    //    std::cout << ui->addCategoryName->text().toStdString() << '\n';
-    //    std::cout << temp->getName() << '\n';
 
     CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
     ui->addCategoryName->clear();
@@ -263,7 +261,7 @@ bool MainWindow::loadCostEntryCategory(int row) {
         ui->itemsTableWidget->setRowCount(0);
         
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
-            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching ooff of category deleting entries
+            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching off of category deleting entries
         }
 
     }
@@ -282,11 +280,22 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     }
 }
 
+void MainWindow::on_btnEditSelection_clicked() {
+    
+    execSelectionChangeConfirmationDialog();
+
+}
+
 void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
     std::cout << row << " " << column << '\n';
     if(selectedCategory >= 0 && selectedCategory < categories.size()) {
         CostEntry *operand = categories.at(selectedCategory)->getEntry(row)/*TODO*/;
         if(column == 0) {
+
+            if (ui->itemsTableWidget->item(row, column)->text().length() > 8) {
+                ui->itemsTableWidget->item(row, column)->setText(ui->itemsTableWidget->item(row, column)->text().first(8));
+            }
+
             operand->set_PartID(ui->itemsTableWidget->item(row, column)->text().toStdString());
             string str = ui->itemsTableWidget->item(row, column)->text().toStdString();
             str.erase(std::remove(str.begin(), str.end(), ' '), str.end());
@@ -298,10 +307,20 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 
         }
         else if(column == 2) {
+
+            if (ui->itemsTableWidget->item(row, column)->text().length() > 2) {
+                ui->itemsTableWidget->item(row, column)->setText(ui->itemsTableWidget->item(row, column)->text().first(2));
+            }
             operand->set_PartColor(ui->itemsTableWidget->item(row, column)->text().toStdString());
 
         }
         else if(column == 3) {
+
+
+            if (ui->itemsTableWidget->item(row, column)->text().length() > 2) {
+                ui->itemsTableWidget->item(row, column)->setText(ui->itemsTableWidget->item(row, column)->text().first(2));
+            }
+
             operand->set_CostUnit(ui->itemsTableWidget->item(row, column)->text().toStdString());
 
         }
