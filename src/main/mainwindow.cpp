@@ -58,7 +58,14 @@ bool MainWindow::saveFile(QString saveLocation) {
 
     QFile file(saveLocation);
 
-    file.copy(fileName + ".backup");
+    if(QFile::exists(fileName + ".backup") ){
+        file.copy(fileName + ".backup.backup");        
+    }
+    else {
+        file.copy(fileName + ".backup");
+        
+    }
+
 
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
