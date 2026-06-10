@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
 
     ui->itemsTableWidget->insertRow(row);
-    QTableWidgetItem* itemPartName = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
+    QTableWidgetItem* itemPartName  = new QTableWidgetItem( QString::fromStdString(entry->get_PartID()) , 0);
     QTableWidgetItem* itemSupID     = new QTableWidgetItem( QString::number(entry->get_SupID()) , 0);
     QTableWidgetItem* itemColor     = new QTableWidgetItem( QString::fromStdString(entry->get_PartColor()) , 0);
     QTableWidgetItem* itemCostUnit  = new QTableWidgetItem( QString::fromStdString(entry->get_CostUnit()) , 0);
@@ -42,15 +42,14 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
 }
 
 MainWindow::~MainWindow() {
-    
-    saveFile(fileName);     //TODO: Bring this out to confirmation dialouge
+
+    saveFile(fileName);     
     
     delete ui;
 }
 
 bool MainWindow::saveFile(QString saveLocation) {
 
-    //TODO: Add File Save location dialouge
 
     bool saved = true;
 
@@ -101,11 +100,11 @@ bool MainWindow::openFile(QString f_name) {
 
     // Open File
     QTextStream in(&file);
-    
+
     categories.push_back( new CostEntryCategory("All Entries"));
     ui->categoriesListWidget->addItem(QString::fromStdString(categories.at(0)->getName()));
 
-    
+
     int i = 0;
     int categoryIndex = 1;
     bool shouldCreateCategoryMutex = true;
@@ -130,6 +129,7 @@ bool MainWindow::openFile(QString f_name) {
             shouldCreateCategoryMutex = true;
         }
     }
+
     //DEBUG
     /*
     for(int i = 0; i < allEntries->getAmount(); i++) {
@@ -173,7 +173,7 @@ bool MainWindow::execSelectionChangeConfirmationDialog() {
 
 void MainWindow::on_btnAdd_clicked() {
 
-    std::cout << ui->addEntryPartName->text().toStdString() << "\n";
+    //std::cout << ui->addEntryPartName->text().toStdString() << "\n";
     if (!ui->addEntryPartName->text().isEmpty()) {
         string partColorStr = "--";
         if (!ui->addEntryColor->text().isEmpty()) {
@@ -192,7 +192,6 @@ void MainWindow::on_btnAdd_clicked() {
         );
 
         
-        //allEntries->addEntry(entry);
         categories.at(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))->addEntry(entry);
         
         addTableItemFromCostEntry(entry, ui->itemsTableWidget->currentRow() + 1);
@@ -202,7 +201,7 @@ void MainWindow::on_btnAdd_clicked() {
     }
 }
 
-void MainWindow::on_btnRemove_clicked() { //TODO
+void MainWindow::on_btnRemove_clicked() { 
 
     int row = ui->itemsTableWidget->selectedItems().first()->row();
 
@@ -236,6 +235,7 @@ void MainWindow::on_btnOpenFile_clicked() {
     d.setFileMode(QFileDialog::AnyFile);
     fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
 
+    std::cout << fileName.toStdString() << "\n";
 
     openFile(fileName);
 }
@@ -272,13 +272,13 @@ bool MainWindow::loadCostEntryCategory(int row) {
     bool foundCategory = false;
 
     if(row >= 0 && row <= ui->categoriesListWidget->count()) {
-        std::cout << ui->categoriesListWidget->count() << " :count\n";
+        //std::cout << ui->categoriesListWidget->count() << " :count\n";
         foundCategory = true;
         ui->itemsTableWidget->clearContents();
         ui->itemsTableWidget->setRowCount(0);
         
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
-            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); //TODO: Fix Switching off of category deleting entries
+            addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); 
         }
 
     }
@@ -291,14 +291,16 @@ bool MainWindow::loadCostEntryCategory(int row) {
 void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     if(currentRow != -1) {
         selectedCategory = currentRow;
+        /*
         if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
             std::cout << "Category Changed!\n";
         }
+        */
     }
 }
 
-void MainWindow::on_btnEditSelection_clicked() { //TODO
-    
+void MainWindow::on_btnEditSelection_clicked() {
+
     if (execSelectionChangeConfirmationDialog()) {
         QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
         for (int i = 0; i < items.size(); i++ ){
@@ -309,7 +311,7 @@ void MainWindow::on_btnEditSelection_clicked() { //TODO
 }
 
 void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
-    std::cout << row << " " << column << '\n';
+    //std::cout << row << " " << column << '\n';
     if(selectedCategory >= 0 && selectedCategory < categories.size()) {
         CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
         if(column == 0) {

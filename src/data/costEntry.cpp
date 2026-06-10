@@ -104,7 +104,7 @@ CostEntry::CostEntry(string in) {
     std::replace(operand.begin(), operand.end(), '\'', ' ');
 
 
-    std::cout << operand << '\n';
+    //std::cout << operand << '\n';
     istringstream stream(operand);
     string datum;
     vector<string> data;
@@ -112,7 +112,6 @@ CostEntry::CostEntry(string in) {
     while (stream >> datum) {
         data.push_back(datum);
     }
-    std::cout << std::endl;
 
     /*||||||*/
 

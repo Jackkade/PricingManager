@@ -36,6 +36,8 @@ private:
     void addCategory(CostEntryCategory* category);
     bool execSelectionChangeConfirmationDialog();
 
+    void readPartData();
+
 private slots:
 
     void on_btnOpenFile_clicked();
