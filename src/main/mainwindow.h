@@ -1,6 +1,7 @@
 #pragma once
 #include <QMainWindow>
 #include <costEntry.h>
+#include <QListWidget>
 #include <vector>
 #include "costEntryCategory.h"
 
@@ -50,10 +51,12 @@ private slots:
     void on_btnRemoveAll_clicked();
     void on_btnEditSelection_clicked();
     void on_btnMoveItemsCategory_clicked();
+    void on_btnOpenCategory_clicked();
 
     void on_addEntryFileName_textChanged(const QString &text);
 
     void on_btnAddCategory_clicked();
+    void on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item);
 
     void on_categoriesListWidget_currentRowChanged(int currentRow);
     

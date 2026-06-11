@@ -228,11 +228,7 @@ void MainWindow::on_btnRemove_clicked() {
 
     if(execRemoveItemsConfirmationDialog()) {
 
-        
-        QList<QTableWidgetSelectionRange> ranges = ui->itemsTableWidget->selectedRanges();
- 
-        ranges.at(0).rowCount();
-
+    
         QList<QTableWidgetItem*> items =ui->itemsTableWidget->selectedItems(); 
 
         for (int i = 0; i< items.size(); i++) {
@@ -328,11 +324,7 @@ bool MainWindow::loadCostEntryCategory(int row) {
 void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     if(currentRow != -1) {
         selectedCategory = currentRow;
-        
-        if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
-        //    std::cout << "Category Changed!\n";
-        }
-        
+        ui->btnOpenCategory->setEnabled(true);
     }
 }
 
@@ -427,4 +419,19 @@ void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
 void MainWindow::on_btnMoveItemsCategory_clicked() {
 
 
+}
+
+void MainWindow::on_btnOpenCategory_clicked() {
+
+    if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
+    //    std::cout << "Category Changed!\n";
+    }
+
+}
+
+void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item) {
+   
+    if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
+    //    std::cout << "Category Changed!\n";
+    }
 }
