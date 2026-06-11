@@ -425,7 +425,7 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
     if (ui->itemsTableWidget->selectedItems().size() >= 1) {
         ui->btnRemove->setEnabled(true);
-        if (viewingCategory != -1 && viewingCategory != selectedCategory) {
+        if (viewingCategory != -1 && viewingCategory != selectedCategory && selectedCategory > 0) {
             ui->btnMoveItemsCategory->setEnabled(true);
         }
     }
