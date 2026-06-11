@@ -26,6 +26,7 @@ private:
     Ui::MainWindow *ui;
     QString fileName;
     unsigned int selectedCategory = -1;
+    unsigned int viewingCategory = -1;
     std::vector<CostEntryCategory*> categories;
 
     bool saveFile(QString saveLocation);    //Save Current File; Returns true if file saved correctly.
@@ -37,6 +38,7 @@ private:
     void addCategory(CostEntryCategory* category);
     bool execSelectionChangeConfirmationDialog();
     bool execRemoveItemsConfirmationDialog();
+    bool execMoveItemsToCategory();
 
     void readPartData();
 

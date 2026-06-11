@@ -182,7 +182,29 @@ bool MainWindow::execRemoveItemsConfirmationDialog() {
     
     QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
     for (int i = 0; i < items.size(); i++ ){
-        infoText += categories.at(selectedCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
+        infoText += categories.at(viewingCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
+    }
+    
+    msgBox.setInformativeText(infoText);
+
+    int ret = msgBox.exec();
+
+    return ret == QMessageBox::Ok;
+
+}
+
+
+bool MainWindow::execMoveItemsToCategory() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("The following items will be moved to category" + ui->categoriesListWidget->item(viewingCategory)->text() + ". Is this correct?\n");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    
+    QString infoText = "";
+    
+    QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
+    for (int i = 0; i < items.size(); i++ ){
+        infoText += categories.at(viewingCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
     }
     
     msgBox.setInformativeText(infoText);
@@ -235,9 +257,9 @@ void MainWindow::on_btnRemove_clicked() {
 
             int row = items.at(i)->row();
             
-            CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
+            CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
             categories.at(0)->removeEntry(operand);
-            categories.at(selectedCategory)->removeEntry(operand);
+            categories.at(viewingCategory)->removeEntry(operand);
             ui->itemsTableWidget->removeRow(row);
         }
         
@@ -341,8 +363,8 @@ void MainWindow::on_btnEditSelection_clicked() {
 
 void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
     //std::cout << row << " " << column << '\n';
-    if(selectedCategory >= 0 && selectedCategory < categories.size()) {
-        CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
+    if(viewingCategory >= 0 && viewingCategory < categories.size()) {
+        CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
         if(column == 0) {
 
             if (ui->itemsTableWidget->item(row, column)->text().length() > 8) {
@@ -405,7 +427,7 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
     if (ui->itemsTableWidget->selectedItems().size() >= 1) {
         ui->btnRemove->setEnabled(true);
-        if (selectedCategory != -1) {
+        if (viewingCategory != -1) {
             ui->btnMoveItemsCategory->setEnabled(true);
         }
     }
@@ -418,11 +440,13 @@ void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
 
 void MainWindow::on_btnMoveItemsCategory_clicked() {
 
+    if(execMoveItemsToCategory()) {
 
+    }
 }
 
 void MainWindow::on_btnOpenCategory_clicked() {
-
+    viewingCategory = selectedCategory;
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
     //    std::cout << "Category Changed!\n";
     }
@@ -431,7 +455,8 @@ void MainWindow::on_btnOpenCategory_clicked() {
 
 void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item) {
    
+    viewingCategory = selectedCategory;
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
-    //    std::cout << "Category Changed!\n";
+        //    std::cout << "Category Changed!\n";
     }
 }
