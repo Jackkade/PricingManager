@@ -147,7 +147,6 @@ bool MainWindow::openFile(QString f_name) {
     ui->btnAddCategory->setEnabled(true);
     ui->btnSaveAs->setEnabled(true);
     ui->btnRemove->setEnabled(true);
-    ui->btnRemoveAll->setEnabled(true);
     ui->btnEditSelection->setEnabled(true);
     return i > 0;
 }
@@ -267,10 +266,6 @@ void MainWindow::on_btnRemove_clicked() {
     }
 }
 
-void MainWindow::on_btnRemoveAll_clicked() {
-    ui->itemsTableWidget->clearContents();
-}
-
 
 void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
     if(text.isEmpty()) {
@@ -310,6 +305,9 @@ void MainWindow::on_btnSaveAs_clicked() {
 
 void MainWindow::on_btnAddCategory_clicked() {
 
+    if (selectedCategory == viewingCategory) {
+        ui->btnMoveItemsCategory->setEnabled(false);
+    }
 
     CostEntryCategory *temp = new CostEntryCategory(ui->addCategoryName->text().toStdString());
     ui->addCategoryName->clear();
@@ -427,7 +425,7 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
     if (ui->itemsTableWidget->selectedItems().size() >= 1) {
         ui->btnRemove->setEnabled(true);
-        if (viewingCategory != -1) {
+        if (viewingCategory != -1 && viewingCategory != selectedCategory) {
             ui->btnMoveItemsCategory->setEnabled(true);
         }
     }
@@ -442,11 +440,31 @@ void MainWindow::on_btnMoveItemsCategory_clicked() {
 
     if(execMoveItemsToCategory()) {
 
+        if (selectedCategory != viewingCategory) {
+
+            QList<QTableWidgetItem*> items = ui->itemsTableWidget->selectedItems(); 
+    
+            for (int i = 0; i< items.size(); i++) {
+    
+                int row = items.at(i)->row();
+                
+                CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
+                categories.at(viewingCategory)->removeEntry(operand);
+                categories.at(selectedCategory)->addEntry(operand);
+                ui->itemsTableWidget->removeRow(row);
+        
+            }
+        
+        }
+        
     }
 }
 
 void MainWindow::on_btnOpenCategory_clicked() {
     viewingCategory = selectedCategory;
+    if (selectedCategory == viewingCategory) {
+        ui->btnMoveItemsCategory->setEnabled(false);
+    }
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
     //    std::cout << "Category Changed!\n";
     }
@@ -456,6 +474,9 @@ void MainWindow::on_btnOpenCategory_clicked() {
 void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item) {
    
     viewingCategory = selectedCategory;
+    if (selectedCategory == viewingCategory) {
+        ui->btnMoveItemsCategory->setEnabled(false);
+    }
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
         //    std::cout << "Category Changed!\n";
     }

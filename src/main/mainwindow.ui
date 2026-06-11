@@ -52,31 +52,15 @@
      <string>Add</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnRemoveAll">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>1653</x>
-      <y>1130</y>
-      <width>88</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Remove All</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnRemove">
     <property name="enabled">
      <bool>false</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>1563</x>
+      <x>1650</x>
       <y>1130</y>
-      <width>88</width>
+      <width>90</width>
       <height>30</height>
      </rect>
     </property>

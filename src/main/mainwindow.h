@@ -50,7 +50,6 @@ private slots:
 
     void on_btnAdd_clicked ();
     void on_btnRemove_clicked();
-    void on_btnRemoveAll_clicked();
     void on_btnEditSelection_clicked();
     void on_btnMoveItemsCategory_clicked();
     void on_btnOpenCategory_clicked();
