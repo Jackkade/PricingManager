@@ -35,6 +35,7 @@ private:
     bool loadCostEntryCategory(int row);
     void addCategory(CostEntryCategory* category);
     bool execSelectionChangeConfirmationDialog();
+    bool execRemoveItemsConfirmationDialog();
 
     void readPartData();
 
@@ -48,6 +49,7 @@ private slots:
     void on_btnRemove_clicked();
     void on_btnRemoveAll_clicked();
     void on_btnEditSelection_clicked();
+    void on_btnMoveItemsCategory_clicked();
 
     void on_addEntryFileName_textChanged(const QString &text);
 

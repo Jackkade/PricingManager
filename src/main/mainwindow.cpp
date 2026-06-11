@@ -65,6 +65,7 @@ bool MainWindow::saveFile(QString saveLocation) {
         
     }
 
+    file.remove();
 
     if (!file.open(QIODevice::ReadWrite)) {
         QMessageBox::information(0, "error", file.errorString());
@@ -171,6 +172,27 @@ bool MainWindow::execSelectionChangeConfirmationDialog() {
     return ret == QMessageBox::Ok;
 }
 
+bool MainWindow::execRemoveItemsConfirmationDialog() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("The Following Items will be deleted. Please ensure you intend to delete them:\n");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    
+    QString infoText = "";
+    
+    QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
+    for (int i = 0; i < items.size(); i++ ){
+        infoText += categories.at(selectedCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
+    }
+    
+    msgBox.setInformativeText(infoText);
+
+    int ret = msgBox.exec();
+
+    return ret == QMessageBox::Ok;
+
+}
+
 void MainWindow::on_btnAdd_clicked() {
 
     //std::cout << ui->addEntryPartName->text().toStdString() << "\n";
@@ -203,13 +225,21 @@ void MainWindow::on_btnAdd_clicked() {
 
 void MainWindow::on_btnRemove_clicked() { 
 
-    int row = ui->itemsTableWidget->selectedItems().first()->row();
 
-    ui->itemsTableWidget->removeRow(row);
+    if(execRemoveItemsConfirmationDialog()) {
 
-    CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
-    categories.at(0)->removeEntry(operand);
-    categories.at(selectedCategory)->removeEntry(operand);
+        for (int i = 0; i< ui->itemsTableWidget->selectedItems().size(); i++) {
+
+            int row = ui->itemsTableWidget->selectedItems().at(i)->row();
+            ui->itemsTableWidget->removeRow(row);
+            
+            CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
+            categories.at(0)->removeEntry(operand);
+            categories.at(selectedCategory)->removeEntry(operand);
+        }
+        
+
+    }
 }
 
 void MainWindow::on_btnRemoveAll_clicked() {
@@ -291,11 +321,11 @@ bool MainWindow::loadCostEntryCategory(int row) {
 void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     if(currentRow != -1) {
         selectedCategory = currentRow;
-        /*
+        
         if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
-            std::cout << "Category Changed!\n";
+        //    std::cout << "Category Changed!\n";
         }
-        */
+        
     }
 }
 
@@ -374,10 +404,20 @@ void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
 }
 
 void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
-    if (ui->itemsTableWidget->selectedItems().size() == 1) {
+    if (ui->itemsTableWidget->selectedItems().size() >= 1) {
         ui->btnRemove->setEnabled(true);
+        if (selectedCategory != -1) {
+            ui->btnMoveItemsCategory->setEnabled(true);
+        }
     }
     else {
         ui->btnRemove->setEnabled(false);
+        ui->btnMoveItemsCategory->setEnabled(false);
     }
+}
+
+
+void MainWindow::on_btnMoveItemsCategory_clicked() {
+
+
 }

@@ -531,6 +531,22 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="btnMoveItemsCategory">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>580</y>
+      <width>320</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Move Items to Category</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
