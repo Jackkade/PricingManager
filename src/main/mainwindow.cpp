@@ -228,14 +228,21 @@ void MainWindow::on_btnRemove_clicked() {
 
     if(execRemoveItemsConfirmationDialog()) {
 
-        for (int i = 0; i< ui->itemsTableWidget->selectedItems().size(); i++) {
+        
+        QList<QTableWidgetSelectionRange> ranges = ui->itemsTableWidget->selectedRanges();
+ 
+        ranges.at(0).rowCount();
 
-            int row = ui->itemsTableWidget->selectedItems().at(i)->row();
-            ui->itemsTableWidget->removeRow(row);
+        QList<QTableWidgetItem*> items =ui->itemsTableWidget->selectedItems(); 
+
+        for (int i = 0; i< items.size(); i++) {
+
+            int row = items.at(i)->row();
             
             CostEntry *operand = categories.at(selectedCategory)->getEntry(row);
             categories.at(0)->removeEntry(operand);
             categories.at(selectedCategory)->removeEntry(operand);
+            ui->itemsTableWidget->removeRow(row);
         }
         
 
