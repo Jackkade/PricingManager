@@ -17,21 +17,28 @@ jobs:
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      # 3. Configure and Build using Ninja
+   # 3. Configure and Build using Ninja
       - name: Build Project
         run: |
-          # We change the generator (-G) to Ninja, which uses the MSVC compiler we set up above
           cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release .
           cmake --build build
 
-    # 4. Deploy Qt Dependencies
+      # 3.5 Diagnostic Step: Show exactly where the file is
+      - name: Locate Executable
+        run: |
+          Get-ChildItem -Path build -Filter *.exe -Recurse
+
+      # 4. Deploy Qt Dependencies (Using wildcard to find the exe wherever Ninja placed it)
       - name: Deploy Qt Dependencies
         run: |
-          windeployqt build/untitled.exe
+          # PowerShell will find the actual path of untitled.exe automatically
+          $exePath = (Get-ChildItem -Path build -Filter untitled.exe -Recurse).FullName
+          Write-Output "Deploying dependencies for: $exePath"
+          windeployqt $exePath
 
-      # 5. Upload the working Windows Build
+      # 5. Upload Artifacts (Uploads everything in the build folder)
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Windows-App
-          path: build/Release/
+          path: build/
