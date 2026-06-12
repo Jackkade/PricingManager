@@ -12,8 +12,8 @@ jobs:
           version: '6.7.0' # Use your specific Qt version
       - name: Build
         run: |
-          mkdir build
-          cd build
+          mkdir building
+          cd building
           cmake ..
           cmake --build . --config Release
       - name: Deploy
