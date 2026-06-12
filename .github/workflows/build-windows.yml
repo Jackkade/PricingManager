@@ -1,0 +1,35 @@
+name: Build Windows Executable
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.7.2' # Use your specific Qt version
+        target: 'desktop'
+
+    - name: Configure and Build
+      shell: pwsh
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --config Release
+
+    - name: Package Output
+      shell: pwsh
+      run: |
+        # Use windeployqt to grab dependencies (windeployqt is located in your Qt install path)
+        & C:\Qt\6.7.2\msvc2019_64\bin\windeployqt.exe --release build\Release\your_app.exe
+        
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-App
+        path: build/Release/
