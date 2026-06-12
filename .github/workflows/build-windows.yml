@@ -6,22 +6,35 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      # 1. Install Qt properly for Windows (using MSVC compiler)
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.7.0' # Use your specific Qt version
-      - name: Build
+          version: '6.7.0' # Match your Qt version
+          arch: 'win64_msvc2019_64' # Forces the Windows MSVC architecture
+
+      # 2. Set up the MSVC Developer Command Prompt
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      # 3. Configure and Build with the correct generators
+      - name: Build Project
         run: |
-          mkdir building
-          cd building
-          cmake ..
+          mkdir build
+          cd build
+          # -G "Visual Studio 17 2022" forces CMake to target Windows native compilation
+          cmake -G "Visual Studio 17 2022" -A x64 ..
           cmake --build . --config Release
-      - name: Deploy
+
+      # 4. Deploy (windeployqt will now succeed)
+      - name: Deploy Qt Dependencies
         run: |
-          # This copies the necessary DLLs to your executable folder
-          windeployqt build/untitled.exe
+          windeployqt build/Release/untitled.exe
+
+      # 5. Upload the working Windows Build
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Windows-App
-          path: build/release/
+          path: build/Release/
