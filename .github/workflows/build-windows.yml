@@ -6,22 +6,45 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+
+      # 1. Install Qt properly for Windows (using MSVC compiler)
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
         with:
-          version: '6.7.0' # Use your specific Qt version
-      - name: Build
+          version: '6.7.0' # Match your Qt version
+          arch: 'win64_msvc2019_64' # Forces the Windows MSVC architecture
+# 2. Set up the MSVC Developer Command Prompt
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+   # 3. Configure and Build using Ninja
+      - name: Build Project
         run: |
-          mkdir build
-          cd build
-          cmake ..
-          cmake --build . --config Release
-      - name: Deploy
+          cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release .
+          cmake --build build
+
+      # 3.5 Diagnostic Step: Show exactly where the file is
+      - name: Locate Executable
         run: |
-          # This copies the necessary DLLs to your executable folder
-          windeployqt build/untitled.exe
+          Get-ChildItem -Path build -Filter *.exe -Recurse
+
+      # 4. Deploy Qt Dependencies (Dynamically finds ANY .exe file in the build folder)
+      - name: Deploy Qt Dependencies
+        run: |
+          # Find the first .exe file inside the build folder, regardless of its name
+          $exePath = (Get-ChildItem -Path build -Filter *.exe -Recurse | Select-Object -First 1).FullName
+          
+          if (-not $exePath) {
+              Write-Error "No executable file found in the build directory!"
+              exit 1
+          }
+          
+          Write-Output "Successfully found executable at: $exePath"
+          windeployqt --release $exePath
+
+      # 5. Upload Artifacts
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: Windows-App
-          path: build/release/
+          path: build/
