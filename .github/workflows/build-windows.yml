@@ -13,21 +13,21 @@ jobs:
         with:
           version: '6.7.0' # Match your Qt version
           arch: 'win64_msvc2019_64' # Forces the Windows MSVC architecture
-
-      # 2. Set up the MSVC Developer Command Prompt
+# 2. Set up the MSVC Developer Command Prompt
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-     # 3. Configure and Build (No mkdir needed!)
+      # 3. Configure and Build using Ninja
       - name: Build Project
         run: |
-          cmake -B build -G "Visual Studio 17 2022" -A x64 .
-          cmake --build build --config Release
+          # We change the generator (-G) to Ninja, which uses the MSVC compiler we set up above
+          cmake -B build -G "Ninja" -DCMAKE_BUILD_TYPE=Release .
+          cmake --build build
 
-      # 4. Deploy (windeployqt will now succeed)
+    # 4. Deploy Qt Dependencies
       - name: Deploy Qt Dependencies
         run: |
-          windeployqt build/Release/untitled.exe
+          windeployqt build/untitled.exe
 
       # 5. Upload the working Windows Build
       - name: Upload Artifacts
