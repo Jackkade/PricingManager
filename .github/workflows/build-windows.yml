@@ -18,14 +18,11 @@ jobs:
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
 
-      # 3. Configure and Build with the correct generators
+     # 3. Configure and Build (No mkdir needed!)
       - name: Build Project
         run: |
-          mkdir build
-          cd build
-          # -G "Visual Studio 17 2022" forces CMake to target Windows native compilation
-          cmake -G "Visual Studio 17 2022" -A x64 ..
-          cmake --build . --config Release
+          cmake -B build -G "Visual Studio 17 2022" -A x64 .
+          cmake --build build --config Release
 
       # 4. Deploy (windeployqt will now succeed)
       - name: Deploy Qt Dependencies
