@@ -13,15 +13,16 @@ jobs:
       with:
         version: '6.7.2' # Use your specific Qt version
         target: 'desktop'
-
-    - name: Configure and Build
-      shell: pwsh
+# 3. Configure and Build (Completely replaces the old mkdir/cd steps)
+    - name: Build Project
       run: |
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build . --config Release
+          cmake -B build -G "Visual Studio 17 2022" -A x64 .
+          cmake --build build --config Release
 
+      # 4. Deploy Qt Dependencies (Updated to point to the new build folder location)
+    - name: Deploy Qt Dependencies
+      run: |
+          windeployqt build/Release/untitled.exe
     - name: Package Output
       shell: pwsh
       run: |
