@@ -76,6 +76,7 @@ bool MainWindow::saveFile(QString saveLocation) {
     QTextStream out(&file);
     
     for (int i = 1; i < categories.size(); ++i) {
+        out << QString::fromStdString(categories.at(i)->getName()) << "\n";
         for (int j = 0; j < categories.at(i)->getAmount(); j++) {
             out << QString::fromStdString(categories.at(i)->getEntry(j)->getStandardForm()) << '\n';
 
@@ -109,11 +110,13 @@ bool MainWindow::openFile(QString f_name) {
     int i = 0;
     int categoryIndex = 1;
     bool shouldCreateCategoryMutex = true;
+    bool hasCreatedCategory = false;
     while (!in.atEnd()) {
         QString line = in.readLine();
+        /*
         if (line.startsWith("'")) {
             if (shouldCreateCategoryMutex) {
-                categories.push_back(new CostEntryCategory(std::to_string(categoryIndex)));
+                //categories.push_back(new CostEntryCategory(std::to_string(categoryIndex)));
                 addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
                 shouldCreateCategoryMutex = false;
             }
@@ -125,9 +128,35 @@ bool MainWindow::openFile(QString f_name) {
             
             i++;
         }
-        else if (!line.startsWith('*')) {
+        else if (!line.startsWith("'")) {
             categoryIndex++;
             shouldCreateCategoryMutex = true;
+        }
+        */
+        if(line.startsWith("*#")) {
+            if (hasCreatedCategory) {
+                categoryIndex++;
+            }
+            addCategory(new CostEntryCategory(line.toStdString()));
+            hasCreatedCategory = true;
+        }
+        else if(line.startsWith("'")) {
+            //Add Entry to current category
+            if (!hasCreatedCategory) {
+                addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
+                categoryIndex++;
+                hasCreatedCategory = true;
+            }
+            CostEntry* entry = new CostEntry(line.toStdString());
+            categories.at(0)->addEntry(entry);
+            categories.at(categoryIndex)->addEntry(entry);
+            addTableItemFromCostEntry(entry, i);
+        }
+        else if (line.startsWith(" ")) {
+            //end current category if open
+        }
+        else if(line.startsWith("#")) {
+            //ignore
         }
     }
 
