@@ -11,7 +11,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.11.0' # Use your specific Qt version
+        version: '6.7.2' # Use your specific Qt version
         target: 'desktop'
 
     - name: Configure and Build
