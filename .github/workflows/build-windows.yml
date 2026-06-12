@@ -1,0 +1,27 @@
+name: Build Windows
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.0' # Use your specific Qt version
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build . --config Release
+      - name: Deploy
+        run: |
+          # This copies the necessary DLLs to your executable folder
+          windeployqt build/untitled.exe
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-App
+          path: build/release/
