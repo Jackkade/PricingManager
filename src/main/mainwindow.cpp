@@ -242,6 +242,7 @@ bool MainWindow::openFile(QString f_name) {
     ui->btnSaveAs->setEnabled(true);
     ui->btnRemove->setEnabled(true);
     ui->btnEditSelection->setEnabled(true);
+    ui->btnMoveItemsCategory->setEnabled(true);
     return i > 0;
 }
 
@@ -290,7 +291,7 @@ bool MainWindow::execRemoveItemsConfirmationDialog() {
 bool MainWindow::execMoveItemsToCategory() {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("The following items will be moved to category" + ui->categoriesListWidget->item(viewingCategory)->text() + ". Is this correct?\n");
+    msgBox.setText("The following items will be moved to category" + ui->categoriesListWidget->item(selectedCategory)->text() + ". Is this correct?\n");
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     
     QString infoText = "";
@@ -344,7 +345,7 @@ void MainWindow::on_btnRemove_clicked() {
     if(execRemoveItemsConfirmationDialog()) {
 
     
-        QList<QTableWidgetItem*> items =ui->itemsTableWidget->selectedItems(); 
+        QList<QTableWidgetItem*> items = ui->itemsTableWidget->selectedItems(); 
 
         for (int i = 0; i< items.size(); i++) {
 
@@ -361,7 +362,7 @@ void MainWindow::on_btnRemove_clicked() {
 }
 
 
-void MainWindow::on_addEntryFileName_textChanged(const QString &text) {
+void MainWindow::on_addEntryPartName_textChanged(const QString &text) {
     if(text.isEmpty()) {
         ui->btnAdd->setDisabled(true);
 
@@ -448,6 +449,17 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     else {
         ui->btnRenameCategory->setEnabled(false);
     }
+    if (ui->itemsTableWidget->selectedItems().size() >= 1) {
+        if (viewingCategory != -1 && viewingCategory != selectedCategory && selectedCategory > 0) {
+            ui->btnMoveItemsCategory->setEnabled(true);
+        }
+        else {
+            ui->btnMoveItemsCategory->setEnabled(false);            
+        }
+    }
+    else {
+        ui->btnMoveItemsCategory->setEnabled(false);
+    }
 }
 
 void MainWindow::on_btnEditSelection_clicked() {
@@ -529,6 +541,9 @@ void MainWindow::on_itemsTableWidget_itemSelectionChanged() {
         ui->btnRemove->setEnabled(true);
         if (viewingCategory != -1 && viewingCategory != selectedCategory && selectedCategory > 0) {
             ui->btnMoveItemsCategory->setEnabled(true);
+        }
+        else {
+            ui->btnMoveItemsCategory->setEnabled(false);            
         }
     }
     else {

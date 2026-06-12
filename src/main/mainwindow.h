@@ -55,7 +55,7 @@ private slots:
     void on_btnOpenCategory_clicked();
     void on_btnRenameCategory_clicked();
 
-    void on_addEntryFileName_textChanged(const QString &text);
+    void on_addEntryPartName_textChanged(const QString &text);
 
     void on_btnAddCategory_clicked();
     void on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item);
