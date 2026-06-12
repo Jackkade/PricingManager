@@ -235,7 +235,7 @@ bool MainWindow::openFile(QString f_name) {
     file.close();
 
     ui->categoriesListWidget->setCurrentItem(ui->categoriesListWidget->item(0));
-
+    viewingCategory = 0;
     hasOpenFile = true;
     ui->btnSave->setEnabled(true);
     ui->btnAddCategory->setEnabled(true);
