@@ -28,15 +28,21 @@ jobs:
         run: |
           Get-ChildItem -Path build -Filter *.exe -Recurse
 
-      # 4. Deploy Qt Dependencies (Using wildcard to find the exe wherever Ninja placed it)
+      # 4. Deploy Qt Dependencies (Dynamically finds ANY .exe file in the build folder)
       - name: Deploy Qt Dependencies
         run: |
-          # PowerShell will find the actual path of untitled.exe automatically
-          $exePath = (Get-ChildItem -Path build -Filter untitled.exe -Recurse).FullName
-          Write-Output "Deploying dependencies for: $exePath"
-          windeployqt $exePath
+          # Find the first .exe file inside the build folder, regardless of its name
+          $exePath = (Get-ChildItem -Path build -Filter *.exe -Recurse | Select-Object -First 1).FullName
+          
+          if (-not $exePath) {
+              Write-Error "No executable file found in the build directory!"
+              exit 1
+          }
+          
+          Write-Output "Successfully found executable at: $exePath"
+          windeployqt --release $exePath
 
-      # 5. Upload Artifacts (Uploads everything in the build folder)
+      # 5. Upload Artifacts
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
