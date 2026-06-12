@@ -74,9 +74,73 @@ bool MainWindow::saveFile(QString saveLocation) {
 
     
     QTextStream out(&file);
+
+    out << QString::fromStdString(
+        "*                           DT_COST.SIZ\n" \
+        "*\n" \
+        "* ?Indaco's pricing\n" \
+        "*\n" \
+        "*  File    - 8 character part name used to identify the different parts\n" \
+        "*  Name      in the data files & BOM. For those members without part\n" \
+        "*            names the general part names of CLIP, FRAME, and ANGLE can\n" \
+        "*            be used.  Those connection plates which do not have a part\n" \
+        "*            name will be priced according to the data listed under CLIP.\n" \
+        "*\n" \
+        "*  Sup     - Integer value that references the Supplier file which\n" \
+        "*  Id        describes the supplier & discount factors for the part.\n" \
+        "*\n" \
+        "*  Part    - 2 character description of the part color. If no color\n" \
+        "*  Color     enter -- or NO. If a part cost for any color is the same,\n" \
+        "*            enter CO rather than list all the individual colors.\n" \
+        "*\n" \
+        "*  Cost    - 2 character description of how the cost factors are to be\n" \
+        "*  Unit      applied.\n" \
+        "*              FT - The cost is based on the part length.\n" \
+        "*              EA - The cost is based on the quantity.\n" \
+        "*              LB - The cost is based on the weight.\n" \
+        "*              WF - The cost is based on the weight per foot.\n" \
+        "*\n" \
+        "*  Material- The material cost of the part.\n" \
+        "*  Cost\n" \
+        "*\n" \
+        "*  Labor   - The labor cost for fabricating the part.\n" \
+        "*  Cost\n" \
+        "*\n" \
+        "*  Min     - Describes a minimum unit for determining cost.\n" \
+        "*  Unit        FT - This is the minimum length of the part that is used\n" \
+        "*                   for the cost calculation. If this value is 3.00, but\n" \
+        "*                   the actual part length is 2.50, the program will use the\n" \
+        "*                   3.00 for cost calculations.\n" \
+        "*              EA - This is the minimum number of parts that are used for\n" \
+        "*                   the cost calculations. If this value is 100.0, but the\n" \
+        "*                   actual part quantity is 89, the program will use 100 for\n" \
+        "*                   cost calculations.\n" \
+        "*              LB - This is the minimum weight of parts that are used for\n" \
+        "*                   the cost calculations. If this value is 100.0, but the\n" \
+        "*                   actual part weight is 89, the program will use 100 for\n" \
+        "*                   cost calculations.\n" \
+        "*\n" \
+        "*  Cost    - Cost unit to be used in calculating additional costs.\n" \
+        "*  Unit\n" \
+        "*\n" \
+        "*  Extra   - Describes additional charges for the part based on the cost\n" \
+        "*  Min,Max   unit if that unit is less than or greater than the listed\n" \
+        "*            minimum and maximum values.\n" \
+        "*\n" \
+        "*    11      'C, Z book'                'Whirlwind'     0.00       'Whirlwind'\n" \
+        "*    15      'C,Z discounted'           'Whirlwind'     0.00       'Whirlwind' \n" \
+        "*    17      'C,Z special'              'Whirlwind'     0.00       'Whirlwind' \n" \
+        "*\n" \
+        "*\n" \
+        "**                    ----Standard_Costs-------  ------Additional_Costs---------\n" \
+        "** Part    Sup  Part  Cost  Matrl  Labor   Min   Cost   Extra_Min      Extra_Max\n" \
+        "** Name     Id  Clr   Unit   Cost   Cost   Unit  Unit   Min   Cost    Max   Cost\n" \
+        "**-------  ---  ----  ----  -----  -----  -----  ----  ----- -----  ------ -----   \n"
+
+    );
     
     for (int i = 1; i < categories.size(); ++i) {
-        out << QString::fromStdString(categories.at(i)->getName()) << "\n";
+        out << "*#" << QString::fromStdString(categories.at(i)->getName()) << "\n";
         for (int j = 0; j < categories.at(i)->getAmount(); j++) {
             out << QString::fromStdString(categories.at(i)->getEntry(j)->getStandardForm()) << '\n';
 
@@ -137,7 +201,8 @@ bool MainWindow::openFile(QString f_name) {
             if (hasCreatedCategory) {
                 categoryIndex++;
             }
-            addCategory(new CostEntryCategory(line.toStdString()));
+            string tempName = line.toStdString();
+            addCategory(new CostEntryCategory(tempName.substr(2, tempName.size())));
             hasCreatedCategory = true;
         }
         else if(line.startsWith("'")) {
@@ -153,9 +218,9 @@ bool MainWindow::openFile(QString f_name) {
             addTableItemFromCostEntry(entry, i);
         }
         else if (line.startsWith(" ")) {
-            //end current category if open
+            //ignore
         }
-        else if(line.startsWith("#")) {
+        else if(line.startsWith("*")) {
             //ignore
         }
     }
@@ -358,6 +423,8 @@ bool MainWindow::loadCostEntryCategory(int row) {
         foundCategory = true;
         ui->itemsTableWidget->clearContents();
         ui->itemsTableWidget->setRowCount(0);
+        ui->labelSelectedCategoryData->setText(QString::fromStdString(categories.at(viewingCategory)->getName()));
+        ui->labelSelectedCategoryDataHeader->setText(QString::fromStdString(categories.at(viewingCategory)->getName()));
         
         for (int j = 0; j < categories.at(row)->getAmount(); j++) {
             addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); 
