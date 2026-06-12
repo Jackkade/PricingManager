@@ -1,0 +1,9 @@
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/untitled.exe.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/edit_cache.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/rebuild_cache.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/list_install_components.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/install.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/install/local.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/install/strip.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/untitled.exe_autogen_timestamp_deps.dir
+/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/CMakeFiles/untitled.exe_autogen.dir

@@ -1,0 +1,17 @@
+# ninja log v7
+154	1201	1777347089042463149	CMakeFiles/untitled.dir/untitled_autogen/mocs_compilation.cpp.o	9c80bc6bb4931beb
+154	1255	1777347089042783907	CMakeFiles/untitled.dir/mainwindow.cpp.o	e4f35f9c29953cce
+154	1313	1777347089042633968	CMakeFiles/untitled.dir/main.cpp.o	16330ead99410227
+3	207	1781227860715996159	untitled.exe_autogen/timestamp	b1dc8db18036b07e
+3	207	1781227860715996159	untitled.exe_autogen/mocs_compilation.cpp	b1dc8db18036b07e
+3	207	1781227860715996159	/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/untitled.exe_autogen/timestamp	b1dc8db18036b07e
+3	207	1781227860715996159	/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/untitled.exe_autogen/mocs_compilation.cpp	b1dc8db18036b07e
+207	1970	1781227860723498045	CMakeFiles/untitled.exe.dir/untitled.exe_autogen/mocs_compilation.cpp.o	36af5e659e756878
+185	1276	1777410528009365652	CMakeFiles/untitled.exe.dir/mainwindow.cpp.o	96a1317818beab93
+185	1278	1777410528009224213	CMakeFiles/untitled.exe.dir/main.cpp.o	39bc3b235528c85
+2536	2668	1781227863050987115	untitled.exe	4b34576b71473e9e
+208	1932	1781227860723714003	CMakeFiles/untitled.exe.dir/src/main/main.cpp.o	45a7713c98575308
+208	2536	1781227860723874252	CMakeFiles/untitled.exe.dir/src/main/mainwindow.cpp.o	d8305e440db80a2
+149	1605	1779316069423278155	CMakeFiles/untitled.exe.dir/src/main/listEntry.cpp.o	9b1aa2ddbabd226e
+2	133	1781228562550279567	build.ninja	30744ef7d576d74e
+2	133	1781228562549269405	/home/Jackkade/Documents/Projects/INDICO/PricingManager/build/cmake_install.cmake	30744ef7d576d74e
