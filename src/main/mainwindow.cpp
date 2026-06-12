@@ -442,6 +442,12 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
         selectedCategory = currentRow;
         ui->btnOpenCategory->setEnabled(true);
     }
+    if(currentRow > 0) {
+        ui->btnRenameCategory->setEnabled(true);
+    }
+    else {
+        ui->btnRenameCategory->setEnabled(false);
+    }
 }
 
 void MainWindow::on_btnEditSelection_clicked() {
@@ -578,4 +584,10 @@ void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
         //    std::cout << "Category Changed!\n";
     }
+}
+
+void MainWindow::on_btnRenameCategory_clicked() {
+
+    ui->categoriesListWidget->item(selectedCategory)->setText(ui->addCategoryName->text());
+    categories.at(selectedCategory)->setName(ui->addCategoryName->text().toStdString());
 }

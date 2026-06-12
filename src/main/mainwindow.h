@@ -53,6 +53,7 @@ private slots:
     void on_btnEditSelection_clicked();
     void on_btnMoveItemsCategory_clicked();
     void on_btnOpenCategory_clicked();
+    void on_btnRenameCategory_clicked();
 
     void on_addEntryFileName_textChanged(const QString &text);
 
