@@ -510,7 +510,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <number>99</number>
     </property>
     <property name="placeholderText">
-     <string extracomment="Category Name">Category Name</string>
+     <string extracomment="Category Name"/>
     </property>
     <property name="clearButtonEnabled">
      <bool>true</bool>
