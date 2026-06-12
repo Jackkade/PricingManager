@@ -1,2 +1,7 @@
 reference/
 build/
+build/.ninja_deps
+build/.ninja_deps
+build/.ninja_log
+.gitignore
+build/CMakeFiles/untitled.exe.dir/src/main/mainwindow.cpp.o
