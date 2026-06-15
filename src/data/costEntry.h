@@ -15,7 +15,7 @@ class CostEntry {
     string costUnit = "--";         //Max 2 Char
     Money materialCost;
     Money laborCost;
-    unsigned int minUnits;
+    float minUnits;
     //additionalCost cost;
 
     string file;
@@ -30,8 +30,8 @@ class CostEntry {
 
     public:
 
-    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits);
-    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, unsigned int minUnits, string f);
+    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, float minUnits);
+    CostEntry(string partID, int supID, string partColor, string costUnit, Money materialCost, Money laborCost, float minUnits, string f);
     CostEntry(string in);   //From Read String
     string getStandardForm();
 
@@ -42,7 +42,7 @@ class CostEntry {
     string get_CostUnit();
     Money get_MaterialCost();
     Money get_LaborCost();
-    unsigned int get_MinUnits();
+    float get_MinUnits();
     string get_file();
 
     bool set_PartID(string);
@@ -51,7 +51,7 @@ class CostEntry {
     bool set_CostUnit(string);
     bool set_MaterialCost(Money);
     bool set_LaborCost(Money);
-    bool set_MinUnits(unsigned int);
+    bool set_MinUnits(float);
     bool set_file(string);
 
     string get_PartName();

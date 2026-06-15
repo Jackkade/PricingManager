@@ -9,7 +9,7 @@
             "name": "Launch",
             "type": "lldb",
             "request": "launch",
-            "program": "${workspaceRoot}/<your program>",
+            "program": "${workspaceRoot}/build/untitled.exe",
             "args": [],
             "cwd": "${workspaceRoot}"
         }

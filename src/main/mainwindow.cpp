@@ -29,7 +29,7 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
     QTableWidgetItem* itemCostUnit  = new QTableWidgetItem( QString::fromStdString(entry->get_CostUnit()) , 0);
     QTableWidgetItem* itemMatCost   = new QTableWidgetItem( QString::fromStdString(entry->get_MaterialCost().getAmountStr()) , 0);
     QTableWidgetItem* itemLaborCost = new QTableWidgetItem( QString::fromStdString(entry->get_LaborCost().getAmountStr()) , 0);
-    QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::number((entry->get_MinUnits()) , 0));
+    QTableWidgetItem* itemMinUnits  = new QTableWidgetItem( QString::fromStdString(std::to_string(entry->get_MinUnits())));
     QTableWidgetItem* itemFile      = new QTableWidgetItem(QString::fromStdString(entry->get_file()));
     ui->itemsTableWidget->setItem(row, 0, itemPartName);
     ui->itemsTableWidget->setItem(row, 1, itemSupID);
@@ -197,6 +197,9 @@ bool MainWindow::openFile(QString f_name) {
             shouldCreateCategoryMutex = true;
         }
         */
+        
+        std::cout<< line.toStdString() << '\n';
+
         if(line.startsWith("*#")) {
             if (hasCreatedCategory) {
                 categoryIndex++;
@@ -209,7 +212,7 @@ bool MainWindow::openFile(QString f_name) {
             //Add Entry to current category
             if (!hasCreatedCategory) {
                 addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
-                categoryIndex++;
+                //categoryIndex++;
                 hasCreatedCategory = true;
             }
             CostEntry* entry = new CostEntry(line.toStdString());
