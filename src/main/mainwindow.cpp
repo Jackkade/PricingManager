@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <cstdio>
 #include <iostream>
 #include <QFile>
 #include <QStandardPaths>
@@ -140,7 +141,7 @@ bool MainWindow::saveFile(QString saveLocation) {
     );
     
     for (int i = 1; i < categories.size(); ++i) {
-        out << "*#" << QString::fromStdString(categories.at(i)->getName()) << "\n";
+        out << "'%" << QString::fromStdString(categories.at(i)->getName()) << "' 00 '--' '--' 0.00 0.00 0.00 '--' 0.00 0.00 0.00 0.00 \n";
         for (int j = 0; j < categories.at(i)->getAmount(); j++) {
             out << QString::fromStdString(categories.at(i)->getEntry(j)->getStandardForm()) << '\n';
 
@@ -200,12 +201,18 @@ bool MainWindow::openFile(QString f_name) {
         
         std::cout<< line.toStdString() << '\n';
 
-        if(line.startsWith("*#")) {
+        if(line.startsWith("'%")) {
             if (hasCreatedCategory) {
                 categoryIndex++;
             }
             string tempName = line.toStdString();
-            addCategory(new CostEntryCategory(tempName.substr(2, tempName.size())));
+            char c = ' ';
+            int i = 1;
+            while (c !=  '\'' && i < tempName.size()) {
+                c = tempName.at(i);
+                i++;
+            }
+            addCategory(new CostEntryCategory(tempName.substr(2, i-3)));
             hasCreatedCategory = true;
         }
         else if(line.startsWith("'")) {

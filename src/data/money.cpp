@@ -16,6 +16,9 @@ unsigned long long Money::getAmount() {
 }
 
 string Money::getAmountStr() {// 50.0000
+
+
+    
     string s = std::to_string(mills / 10000) + "." + std::to_string(mills % 10000);
     return s;
 } 
