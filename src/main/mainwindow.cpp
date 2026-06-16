@@ -199,7 +199,7 @@ bool MainWindow::openFile(QString f_name) {
         }
         */
         
-        std::cout<< line.toStdString() << '\n';
+        //std::cout<< line.toStdString() << '\n';
 
         if(line.startsWith("'%")) {
             if (hasCreatedCategory) {
@@ -253,7 +253,44 @@ bool MainWindow::openFile(QString f_name) {
     ui->btnRemove->setEnabled(true);
     ui->btnEditSelection->setEnabled(true);
     ui->btnMoveItemsCategory->setEnabled(true);
+    ui->btnOpenFile->setEnabled(true);
+    ui->categoriesListWidget->setEnabled(true);
+    ui->itemsTableWidget->setEnabled(true);
+    ui->addCategoryName->setEnabled(true);
+    ui->changeEntryDataText->setEnabled(true);
+    ui->btnCloseFile->setEnabled(true);
     return i > 0;
+}
+
+bool MainWindow::closeFile() {
+    //TODO: Popup to save file. Currently Just deletes unsaved changes.
+
+    for(int i = 1; i < categories.size(); i++) {
+        delete categories.at(i);
+    }
+
+    categories.clear();
+
+    ui->itemsTableWidget->clear();
+    ui->itemsTableWidget->setRowCount(0);
+    ui->categoriesListWidget->clear();
+    ui->btnCloseFile->setEnabled(false);
+    viewingCategory = -1;
+    selectedCategory = -1;
+    hasOpenFile = false;
+    fileName.clear();
+    ui->btnSave->setEnabled(false);
+    ui->btnAddCategory->setEnabled(false);
+    ui->btnSaveAs->setEnabled(false);
+    ui->btnRemove->setEnabled(false);
+    ui->btnEditSelection->setEnabled(false);
+    ui->btnMoveItemsCategory->setEnabled(false);
+    ui->categoriesListWidget->setEnabled(false);
+    ui->itemsTableWidget->setEnabled(false);
+    ui->addCategoryName->setEnabled(false);
+    ui->changeEntryDataText->setEnabled(false);
+    return true;
+
 }
 
 bool MainWindow::execSelectionChangeConfirmationDialog() {
@@ -385,6 +422,11 @@ void MainWindow::on_addEntryPartName_textChanged(const QString &text) {
 
 void MainWindow::on_btnOpenFile_clicked() {
 
+    
+    if(hasOpenFile) {
+        saveFile(fileName);
+        closeFile();//TODO: bring this to dialouge
+    }
 
     QFileDialog d;
     d.setFileMode(QFileDialog::AnyFile);
@@ -394,6 +436,13 @@ void MainWindow::on_btnOpenFile_clicked() {
 
     openFile(fileName);
 }
+
+void MainWindow::on_btnCloseFile_clicked() {
+    //TODO: Confirmation Dialouge?
+    saveFile(fileName);
+    closeFile();
+}
+
 
 void MainWindow::on_btnSave_clicked() {
 

@@ -5,6 +5,13 @@ CostEntryCategory::CostEntryCategory(string name) {
     setName(name);
 }
 
+CostEntryCategory::~CostEntryCategory() {
+    for(int i = 0; i < this->getAmount(); i++) {
+        delete getEntry(i);
+    }
+}
+
+
 
 void CostEntryCategory::setName(std::string name) {
     categoryName = name;

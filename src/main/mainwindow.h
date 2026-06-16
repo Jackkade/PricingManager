@@ -31,7 +31,8 @@ private:
 
     bool saveFile(QString saveLocation);    //Save Current File; Returns true if file saved correctly.
     bool openFile(QString f_name);
-
+    bool closeFile();
+    
     void addTableItemFromCostEntry(CostEntry* entry,  int row);
 
     bool loadCostEntryCategory(int row);
@@ -45,6 +46,7 @@ private:
 private slots:
 
     void on_btnOpenFile_clicked();
+    void on_btnCloseFile_clicked();
     void on_btnSave_clicked();
     void on_btnSaveAs_clicked();
 

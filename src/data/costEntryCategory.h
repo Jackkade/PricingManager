@@ -12,7 +12,7 @@ class CostEntryCategory {
     public:
 
     CostEntryCategory(string name);
-
+    ~CostEntryCategory();
     void setName(std::string name);
     std::string getName();
 
