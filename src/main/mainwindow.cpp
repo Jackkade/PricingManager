@@ -176,8 +176,11 @@ bool MainWindow::openFile(QString f_name) {
     int categoryIndex = 1;
     bool shouldCreateCategoryMutex = true;
     bool hasCreatedCategory = false;
+    QString prevLine;
+    QString line;
     while (!in.atEnd()) {
-        QString line = in.readLine();
+        prevLine = line;
+        line = in.readLine();
         /*
         if (line.startsWith("'")) {
             if (shouldCreateCategoryMutex) {
@@ -217,7 +220,7 @@ bool MainWindow::openFile(QString f_name) {
         }
         else if(line.startsWith("'")) {
             //Add Entry to current category
-            if (!hasCreatedCategory) {
+            if (!hasCreatedCategory /*|| prevLine.isEmpty()*/) {
                 addCategory(new CostEntryCategory(std::to_string(categoryIndex)));
                 //categoryIndex++;
                 hasCreatedCategory = true;
@@ -227,12 +230,16 @@ bool MainWindow::openFile(QString f_name) {
             categories.at(categoryIndex)->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
         }
-        else if (line.startsWith(" ")) {
-            //ignore
+        /*
+        else if (line.isEmpty()) {
+            if (hasCreatedCategory) {
+                categoryIndex++;
+            }
+            addCategory(new CostEntryCategory(std::to_string((categoryIndex))));
+            hasCreatedCategory = true;
         }
-        else if(line.startsWith("*")) {
-            //ignore
-        }
+        */
+
     }
 
     //DEBUG
