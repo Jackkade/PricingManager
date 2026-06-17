@@ -226,7 +226,7 @@ bool MainWindow::openFile(QString f_name) {
                 hasCreatedCategory = true;
             }
             CostEntry* entry = new CostEntry(line.toStdString());
-            categories.at(0)->addEntry(entry);
+            //categories.at(0)->addEntry(entry);
             categories.at(categoryIndex)->addEntry(entry);
             addTableItemFromCostEntry(entry, i);
         }
@@ -363,6 +363,29 @@ bool MainWindow::execMoveItemsToCategory() {
 
 }
 
+bool MainWindow::execConfirmDeleteCategory() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("Warning: " + ui->categoriesListWidget->item(selectedCategory)->text() + " will be deleted, including all entries it contains. Ensure that this is what you want to do.\n");
+    msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+    
+    QString infoText = "";
+    
+    for (int i = 0; i < categories.at(selectedCategory)->getAmount(); i++ ){
+        infoText += categories.at(selectedCategory)->getEntry(i)->getStandardForm() + "\n";
+    }
+
+    infoText += "\nWill all be deleted. This is permanent!\n";
+    
+    msgBox.setInformativeText(infoText);
+
+    int ret = msgBox.exec();
+
+    return ret == QMessageBox::Ok;
+
+}
+
+
 void MainWindow::on_btnAdd_clicked() {
 
     //std::cout << ui->addEntryPartName->text().toStdString() << "\n";
@@ -406,7 +429,7 @@ void MainWindow::on_btnRemove_clicked() {
             int row = items.at(i)->row();
             
             CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
-            categories.at(0)->removeEntry(operand);
+            //categories.at(0)->removeEntry(operand);
             categories.at(viewingCategory)->removeEntry(operand);
             ui->itemsTableWidget->removeRow(row);
         }
@@ -485,7 +508,7 @@ void MainWindow::addCategory(CostEntryCategory* category) {
 bool MainWindow::loadCostEntryCategory(int row) {
     bool foundCategory = false;
 
-    if(row >= 0 && row <= ui->categoriesListWidget->count()) {
+    if(row > 0 && row <= ui->categoriesListWidget->count()) {
         //std::cout << ui->categoriesListWidget->count() << " :count\n";
         foundCategory = true;
         ui->itemsTableWidget->clearContents();
@@ -497,6 +520,19 @@ bool MainWindow::loadCostEntryCategory(int row) {
             addTableItemFromCostEntry(categories.at(row)->getEntry(j), j); 
         }
 
+    }
+    else if(row == 0 && row <= ui->categoriesListWidget->count()) {
+        foundCategory = true;
+        ui->itemsTableWidget->clearContents();
+        ui->itemsTableWidget->setRowCount(0);
+        ui->labelSelectedCategoryData->setText(QString::fromStdString(categories.at(0)->getName()));
+        ui->labelSelectedCategoryDataHeader->setText(QString::fromStdString(categories.at(0)->getName()));
+        
+        for (int i = 1; i < categories.size(); i++) {
+            for(int j = 0; j < categories.at(i)->getAmount(); j++) {
+                addTableItemFromCostEntry(categories.at(i)->getEntry(j), ui->itemsTableWidget->rowCount());             
+            }
+        }
     }
 
 
@@ -511,9 +547,11 @@ void MainWindow::on_categoriesListWidget_currentRowChanged(int currentRow) {
     }
     if(currentRow > 0) {
         ui->btnRenameCategory->setEnabled(true);
+        ui->btnDeleteCategory->setEnabled(true);
     }
     else {
         ui->btnRenameCategory->setEnabled(false);
+        ui->btnDeleteCategory->setEnabled(false);
     }
     if (ui->itemsTableWidget->selectedItems().size() >= 1) {
         if (viewingCategory != -1 && viewingCategory != selectedCategory && selectedCategory > 0) {
@@ -541,7 +579,7 @@ void MainWindow::on_btnEditSelection_clicked() {
 
 void MainWindow::on_itemsTableWidget_cellChanged(int row, int column) {
     //std::cout << row << " " << column << '\n';
-    if(viewingCategory >= 0 && viewingCategory < categories.size()) {
+    if(viewingCategory > 0 && viewingCategory < categories.size()) {
         CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
         if(column == 0) {
 
@@ -665,10 +703,21 @@ void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
         //    std::cout << "Category Changed!\n";
     }
+
 }
 
 void MainWindow::on_btnRenameCategory_clicked() {
 
     ui->categoriesListWidget->item(selectedCategory)->setText(ui->addCategoryName->text());
     categories.at(selectedCategory)->setName(ui->addCategoryName->text().toStdString());
+}
+
+void MainWindow::on_btnDeleteCategory_clicked() {
+    if (execConfirmDeleteCategory()) {
+        if(selectedCategory > 0) {
+            delete categories.at(selectedCategory);
+            categories.erase(categories.cbegin() + selectedCategory);
+            ui->categoriesListWidget->takeItem(selectedCategory);
+        }
+    }
 }

@@ -35,19 +35,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0" colspan="3">
-     <widget class="QLineEdit" name="addCategoryName">
-      <property name="maxLength">
-       <number>99</number>
-      </property>
-      <property name="placeholderText">
-       <string extracomment="Category Name">Category Name</string>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="12" rowspan="2">
      <widget class="QDoubleSpinBox" name="addEntryLaborCost">
       <property name="minimumSize">
@@ -173,6 +160,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </item>
     <item row="3" column="5" rowspan="9" colspan="11">
      <widget class="QTableWidget" name="itemsTableWidget">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
         <horstretch>0</horstretch>
@@ -330,6 +320,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </item>
     <item row="12" column="5">
      <widget class="QLineEdit" name="changeEntryDataText">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="maxLength">
        <number>99</number>
       </property>
@@ -338,16 +331,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
       <property name="clearButtonEnabled">
        <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
-     <widget class="QPushButton" name="btnAddCategory">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Add</string>
       </property>
      </widget>
     </item>
@@ -367,16 +350,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
       <property name="clearButtonEnabled">
        <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3">
-     <widget class="QPushButton" name="btnRenameCategory">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Rename</string>
       </property>
      </widget>
     </item>
@@ -491,6 +464,52 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
       <property name="text">
        <string>Save</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="btnAddCategory">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QLineEdit" name="addCategoryName">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="maxLength">
+       <number>99</number>
+      </property>
+      <property name="placeholderText">
+       <string extracomment="Category Name">Category Name</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="btnDeleteCategory">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Delete Category</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="btnRenameCategory">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Rename</string>
       </property>
      </widget>
     </item>

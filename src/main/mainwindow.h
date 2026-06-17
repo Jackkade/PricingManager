@@ -40,6 +40,7 @@ private:
     bool execSelectionChangeConfirmationDialog();
     bool execRemoveItemsConfirmationDialog();
     bool execMoveItemsToCategory();
+    bool execConfirmDeleteCategory();
 
     void readPartData();
 
@@ -56,6 +57,7 @@ private slots:
     void on_btnMoveItemsCategory_clicked();
     void on_btnOpenCategory_clicked();
     void on_btnRenameCategory_clicked();
+    void on_btnDeleteCategory_clicked();
 
     void on_addEntryPartName_textChanged(const QString &text);
 
