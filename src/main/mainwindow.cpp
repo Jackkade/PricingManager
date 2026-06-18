@@ -278,7 +278,6 @@ bool MainWindow::closeFile() {
 
     categories.clear();
 
-    ui->itemsTableWidget->clear();
     ui->itemsTableWidget->setRowCount(0);
     ui->categoriesListWidget->clear();
     ui->btnCloseFile->setEnabled(false);
