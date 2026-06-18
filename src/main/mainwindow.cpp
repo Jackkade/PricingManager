@@ -439,7 +439,7 @@ void MainWindow::on_btnRemove_clicked() {
 
 
 void MainWindow::on_addEntryPartName_textChanged(const QString &text) {
-    if(text.isEmpty()) {
+    if(text.isEmpty() && viewingCategory > 0) {
         ui->btnAdd->setDisabled(true);
 
     }
@@ -690,6 +690,12 @@ void MainWindow::on_btnOpenCategory_clicked() {
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
     //    std::cout << "Category Changed!\n";
     }
+    if ( viewingCategory > 0) {
+        ui->btnAdd->setEnabled(true);
+    }
+    else {
+        ui->btnAdd->setEnabled(false);
+    }
 
 }
 
@@ -701,6 +707,12 @@ void MainWindow::on_categoriesListWidget_itemDoubleClicked(QListWidgetItem *item
     }
     if ( loadCostEntryCategory(ui->categoriesListWidget->row(ui->categoriesListWidget->currentItem()))) {
         //    std::cout << "Category Changed!\n";
+    }
+    if ( viewingCategory > 0) {
+        ui->btnAdd->setEnabled(true);
+    }
+    else {
+        ui->btnAdd->setEnabled(false);
     }
 
 }
