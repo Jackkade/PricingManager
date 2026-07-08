@@ -42,6 +42,7 @@ private:
     bool execMoveItemsToCategory();
     bool execConfirmDeleteCategory();
     int execConfirmSaveCurrentCloseFile();
+    int execConfirmSaveCurrentCloseProgram();
 
     void readPartData();
 
@@ -69,5 +70,6 @@ private slots:
     
     void on_itemsTableWidget_cellChanged(int row, int column);
     void on_itemsTableWidget_itemSelectionChanged();
+    void closeEvent(QCloseEvent *event);
 
 };

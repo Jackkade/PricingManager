@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
+#include <QCloseEvent>
 #include <iostream>
 #include <QFile>
 #include <QStandardPaths>
@@ -43,8 +44,6 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
 }
 
 MainWindow::~MainWindow() {
-
-    saveFile(fileName);     
     
     delete ui;
 }
@@ -387,13 +386,22 @@ bool MainWindow::execConfirmDeleteCategory() {
 int MainWindow::execConfirmSaveCurrentCloseFile() {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("There is Unsaved Changes. Save current data before closing current file?\n");
+    msgBox.setText("There are Unsaved Changes. Save current data before closing current file?\n");
     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
 
     return msgBox.exec();
 }
 
+int MainWindow::execConfirmSaveCurrentCloseProgram() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("There are Unsaved Changes. Save current data before closing program?\n");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+
+    return msgBox.exec();
+}
 void MainWindow::on_btnAdd_clicked() {
 
     //std::cout << ui->addEntryPartName->text().toStdString() << "\n";
@@ -745,5 +753,20 @@ void MainWindow::on_btnDeleteCategory_clicked() {
             categories.erase(categories.cbegin() + selectedCategory);
             ui->categoriesListWidget->takeItem(selectedCategory);
         }
+    }
+}
+
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    int res = execConfirmSaveCurrentCloseProgram();
+    if(res == QMessageBox::Save) {
+        saveFile(fileName);
+        event->accept();
+    }
+    else if (res == QMessageBox::Discard) {
+        event->accept();
+    }
+    else if (res == QMessageBox::Cancel) {
+        event->ignore();
     }
 }
