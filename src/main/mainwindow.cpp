@@ -402,6 +402,16 @@ int MainWindow::execConfirmSaveCurrentCloseProgram() {
 
     return msgBox.exec();
 }
+
+int MainWindow::execConfirmSaveCurrentOpenFile() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("There are Unsaved Changes. Save current data before opening new file?\n");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+
+    return msgBox.exec();
+}
 void MainWindow::on_btnAdd_clicked() {
 
     //std::cout << ui->addEntryPartName->text().toStdString() << "\n";
@@ -467,20 +477,33 @@ void MainWindow::on_addEntryPartName_textChanged(const QString &text) {
 
 
 void MainWindow::on_btnOpenFile_clicked() {
-
-    
+    bool shouldLoadNewFile = false;
     if(hasOpenFile) {
-        saveFile(fileName);
-        closeFile();//TODO: bring this to dialouge
+
+        int res = execConfirmSaveCurrentOpenFile();
+
+        if(res == QMessageBox::Save) {
+            saveFile(fileName);
+            closeFile();
+            shouldLoadNewFile = true;
+        }
+        else if (res == QMessageBox::Discard) {
+            closeFile();
+            shouldLoadNewFile = true;
+        }
+
     }
 
-    QFileDialog d;
-    d.setFileMode(QFileDialog::AnyFile);
-    fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
+    if(shouldLoadNewFile) {
+        QFileDialog d;
+        d.setFileMode(QFileDialog::AnyFile);
+        fileName = d.getOpenFileName(this, tr("Select File"), QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), tr("Text files (*.txt *.SIZ)"));
+    
+        std::cout << fileName.toStdString() << "\n";
+    
+        openFile(fileName);
 
-    std::cout << fileName.toStdString() << "\n";
-
-    openFile(fileName);
+    }
 }
 
 void MainWindow::on_btnCloseFile_clicked() {

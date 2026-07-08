@@ -43,6 +43,7 @@ private:
     bool execConfirmDeleteCategory();
     int execConfirmSaveCurrentCloseFile();
     int execConfirmSaveCurrentCloseProgram();
+    int execConfirmSaveCurrentOpenFile();
 
     void readPartData();
 
