@@ -771,7 +771,7 @@ void MainWindow::on_btnRenameCategory_clicked() {
 
 void MainWindow::on_btnDeleteCategory_clicked() {
     if (execConfirmDeleteCategory()) {
-        if(selectedCategory > 0) {
+        if(selectedCategory > 0 && selectedCategory < categories.size() ) {
             delete categories.at(selectedCategory);
             categories.erase(categories.cbegin() + selectedCategory);
             ui->categoriesListWidget->takeItem(selectedCategory);
