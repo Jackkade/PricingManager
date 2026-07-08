@@ -270,7 +270,7 @@ bool MainWindow::openFile(QString f_name) {
 }
 
 bool MainWindow::closeFile() {
-    //TODO: Popup to save file. Currently Just deletes unsaved changes.
+    //TODO: Make sure popup is implemented
 
     for(int i = 1; i < categories.size(); i++) {
         delete categories.at(i);
@@ -384,6 +384,15 @@ bool MainWindow::execConfirmDeleteCategory() {
 
 }
 
+int MainWindow::execConfirmSaveCurrentCloseFile() {
+    QMessageBox msgBox;
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setText("There is Unsaved Changes. Save current data before closing current file?\n");
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+
+    return msgBox.exec();
+}
 
 void MainWindow::on_btnAdd_clicked() {
 
@@ -467,9 +476,15 @@ void MainWindow::on_btnOpenFile_clicked() {
 }
 
 void MainWindow::on_btnCloseFile_clicked() {
-    //TODO: Confirmation Dialouge?
-    saveFile(fileName);
-    closeFile();
+    int res = execConfirmSaveCurrentCloseFile();
+    
+    if (res == QMessageBox::Save) {
+        saveFile(fileName);
+        closeFile();
+    }
+    else if (res == QMessageBox::Discard) {
+        closeFile();
+    }
 }
 
 

@@ -41,6 +41,7 @@ private:
     bool execRemoveItemsConfirmationDialog();
     bool execMoveItemsToCategory();
     bool execConfirmDeleteCategory();
+    int execConfirmSaveCurrentCloseFile();
 
     void readPartData();
 
