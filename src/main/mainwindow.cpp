@@ -493,6 +493,9 @@ void MainWindow::on_btnOpenFile_clicked() {
         }
 
     }
+    else {
+        shouldLoadNewFile = true;
+    }
 
     if(shouldLoadNewFile) {
         QFileDialog d;
@@ -714,12 +717,12 @@ void MainWindow::on_btnMoveItemsCategory_clicked() {
     
                 int row = items.at(i)->row();
                 
-                CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
                 if(viewingCategory != 0) {
+                    CostEntry *operand = categories.at(viewingCategory)->getEntry(row);
                     categories.at(viewingCategory)->removeEntry(operand);
+                    categories.at(selectedCategory)->addEntry(operand);
+                    ui->itemsTableWidget->removeRow(row);
                 }
-                categories.at(selectedCategory)->addEntry(operand);
-                ui->itemsTableWidget->removeRow(row);
         
             }
         
