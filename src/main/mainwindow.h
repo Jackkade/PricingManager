@@ -4,7 +4,8 @@
 #include <QListWidget>
 #include <vector>
 #include "costEntryCategory.h"
-
+#include <map>
+#include <QTableWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,6 +29,7 @@ private:
     unsigned int selectedCategory = -1;
     unsigned int viewingCategory = -1;
     std::vector<CostEntryCategory*> categories;
+    std::map<QTableWidgetItem*, CostEntry*> dataMap;  
 
     bool saveFile(QString saveLocation);    //Save Current File; Returns true if file saved correctly.
     bool openFile(QString f_name);

@@ -53,3 +53,15 @@ void CostEntryCategory::removeEntry(CostEntry* e) {
         }
     }
 }
+
+bool CostEntryCategory::hasEntry(CostEntry* e) {
+    bool inCategory = false;
+
+    for(int i = 0; i < entries.size(); i++) {
+        if (entries.at(i) == e) {
+            inCategory = true;
+        }
+    }
+
+    return inCategory;
+}

@@ -41,6 +41,8 @@ void MainWindow::addTableItemFromCostEntry(CostEntry* entry, int row) {
     ui->itemsTableWidget->setItem(row, 5, itemLaborCost);
     ui->itemsTableWidget->setItem(row, 6, itemMinUnits);
     ui->itemsTableWidget->setItem(row, 7, itemFile);
+    //Add Association to DataMap
+    dataMap.insert(std::pair<QTableWidgetItem*, CostEntry*>(itemPartName, entry));
 }
 
 MainWindow::~MainWindow() {
@@ -343,14 +345,22 @@ bool MainWindow::execRemoveItemsConfirmationDialog() {
 bool MainWindow::execMoveItemsToCategory() {
     QMessageBox msgBox;
     msgBox.setIcon(QMessageBox::Warning);
-    msgBox.setText("The following items will be moved to category" + ui->categoriesListWidget->item(selectedCategory)->text() + ". Is this correct?\n");
+    msgBox.setText("The following items will be moved to category " + ui->categoriesListWidget->item(selectedCategory)->text() + ". Is this correct?\n");
     msgBox.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     
     QString infoText = "";
     
     QList<QTableWidgetItem *> items = ui->itemsTableWidget->selectedItems();
-    for (int i = 0; i < items.size(); i++ ){
-        infoText += categories.at(viewingCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
+    if (viewingCategory > 0) {
+        for (int i = 0; i < items.size(); i++ ){
+            infoText += categories.at(viewingCategory)->getEntry(items.at(i)->row())->getStandardForm() + "\n";
+        }
+
+    }
+    else if (viewingCategory == 0) {
+        for(int i = 0; i < items.size(); i++ ) {
+            infoText += dataMap.at(items.at(i))->getStandardForm() + "\n";
+        }
     }
     
     msgBox.setInformativeText(infoText);
@@ -723,7 +733,18 @@ void MainWindow::on_btnMoveItemsCategory_clicked() {
                     categories.at(selectedCategory)->addEntry(operand);
                     ui->itemsTableWidget->removeRow(row);
                 }
-        
+                else if (viewingCategory == 0) {
+                    int cat = -1;
+                    for(int j = 0; j < categories.size(); j++) {
+                        if(categories.at(j)->hasEntry(dataMap.at(items.at(i)))) {
+                            cat = j;
+                        }
+                    }
+                    if(cat != -1) {
+                        categories.at(cat)->removeEntry(dataMap.at(items.at(i)));
+                        categories.at(selectedCategory)->addEntry(dataMap.at(items.at(i)));
+                    }
+                }
             }
         
         }
